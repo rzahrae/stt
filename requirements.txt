@@ -1,0 +1,6 @@
+python-dotenv
+black
+Flask
+flask_socketio
+azure-cognitiveservices-speech
+eventlet
