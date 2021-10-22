@@ -41,8 +41,6 @@ def explore(req_path):
     # Determine if we are on a directory leaf
     if len(files) > 0 and os.path.isfile(os.path.join(abs_path, files[0])):
         leaf = True
-        speech_api.get_stt(os.path.join(abs_path, files[0]))
-
     else:
         leaf = False
 
@@ -50,7 +48,7 @@ def explore(req_path):
 
 @app.route("/inventory")
 def run_inventory():
-    print(inventory.run_inventory(app.config["DOWNLOAD_FOLDER"]))
+    inventory.run_inventory(app.config["DOWNLOAD_FOLDER"])
     return redirect(url_for("explore"))
 
 
