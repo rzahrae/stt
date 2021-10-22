@@ -1,12 +1,25 @@
 import os
 from flask import Flask, abort, render_template, redirect, request, send_file, url_for
+from peewee import *
 from . import speech_api
 from . import inventory
+from . import db
+
+db.database.create_tables([db.Call])
 
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "secret!"
 app.config["DOWNLOAD_FOLDER"] = os.path.join(os.getcwd(), "instance/data")
+
+@app.before_request
+def before_request():
+    db.database.connect()
+
+@app.after_request
+def after_request(response):
+    db.database.close()
+    return response
 
 @app.route('/', defaults={'req_path': ''})
 @app.route("/<path:req_path>")
