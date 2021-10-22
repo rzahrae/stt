@@ -12,16 +12,19 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret!"
 app.config["DOWNLOAD_FOLDER"] = os.path.join(os.getcwd(), "instance/data")
 
+
 @app.before_request
 def before_request():
     db.database.connect()
+
 
 @app.after_request
 def after_request(response):
     db.database.close()
     return response
 
-@app.route('/', defaults={'req_path': ''})
+
+@app.route("/", defaults={"req_path": ""})
 @app.route("/<path:req_path>")
 def explore(req_path):
     # Joining the base and the requested path
@@ -44,12 +47,10 @@ def explore(req_path):
     else:
         leaf = False
 
-    return render_template('index.j2', files=files, leaf=leaf)
+    return render_template("index.j2", files=files, leaf=leaf)
+
 
 @app.route("/inventory")
 def run_inventory():
     inventory.run_inventory(app.config["DOWNLOAD_FOLDER"])
     return redirect(url_for("explore"))
-
-
-
