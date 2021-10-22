@@ -1,9 +1,9 @@
 from pathlib import Path
 
-def inventory(basepath):
+def run_inventory(basepath):
 	paths = []
 	print("inventorying base path:" + basepath)
 	for path in Path(basepath).rglob('*.wav'):
-	    print(path)
+	    path = path.relative_to(basepath)
 	    paths.append(path)
 	return paths

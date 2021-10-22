@@ -1,5 +1,7 @@
 import os
-from flask import Flask, abort, render_template, request, send_file
+from flask import Flask, abort, render_template, redirect, request, send_file, url_for
+from . import speech_api
+from . import inventory
 
 app = Flask(__name__)
 
@@ -8,12 +10,9 @@ app.config["DOWNLOAD_FOLDER"] = os.path.join(os.getcwd(), "instance/data")
 
 @app.route('/', defaults={'req_path': ''})
 @app.route("/<path:req_path>")
-def index(req_path):
-    BASE_DIR = app.config["DOWNLOAD_FOLDER"]
-
-    print(request.path)
+def explore(req_path):
     # Joining the base and the requested path
-    abs_path = os.path.join(BASE_DIR, req_path)
+    abs_path = os.path.join(app.config["DOWNLOAD_FOLDER"], req_path)
 
     # Return 404 if path doesn't exist
     if not os.path.exists(abs_path):
@@ -29,15 +28,17 @@ def index(req_path):
     # Determine if we are on a directory leaf
     if len(files) > 0 and os.path.isfile(os.path.join(abs_path, files[0])):
         leaf = True
+        speech_api.get_stt(os.path.join(abs_path, files[0]))
+
     else:
         leaf = False
-    print(len(files))
-    print(abs_path)
-    print(os.path.isfile(abs_path))
-    print(os.path.isfile(files[0]))
-    print(leaf)
 
     return render_template('index.j2', files=files, leaf=leaf)
+
+@app.route("/inventory")
+def run_inventory():
+    print(inventory.run_inventory(app.config["DOWNLOAD_FOLDER"]))
+    return redirect(url_for("explore"))
 
 
 
