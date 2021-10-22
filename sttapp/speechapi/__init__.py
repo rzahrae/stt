@@ -8,14 +8,23 @@ service_region = "eastus"
 with open("./instance/azure_speech.key") as file:
     speech_key = file.read().strip()
 
+# Init our SDK
+speech_config = speechsdk.SpeechConfig(
+    subscription=speech_key, region=service_region
+)
+
+speech_config.set_property(speechsdk.PropertyId.Speech_LogFilename, "log.txt")
+
+def get_sst(filename):
+    audio_input = speechsdk.AudioConfig(filename=filename)
+
+    speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_input)
+    
+    result = speech_recognizer.recognize_once_async().get()
+    print(result)
+
 
 def get_tts(filename, text, ssml):
-    speech_config = speechsdk.SpeechConfig(
-        subscription=speech_key, region=service_region
-    )
-
-    speech_config.set_property(speechsdk.PropertyId.Speech_LogFilename, "log.txt")
-
     # Creates an audio configuration that points to an audio file.
     # Replace with your own audio filename.
     audio_path = path.join(datadir, filename)

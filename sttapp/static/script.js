@@ -4,6 +4,17 @@ function uuidv4() {
   );
 }
 
+function log(uuid,timestamp,task) {
+    $('#log').prepend(`
+        <tr id=${uuid}>
+            <td class="uuid">${uuid}</td>
+            <td class="timestamp">${datetime}</td>
+            <td class="task">${task}</td>
+            <td class="status">Pending</td>
+        </tr>
+        `);
+}
+
 $(document).ready(function() {
     namespace = '/global';
 
@@ -32,6 +43,17 @@ $(document).ready(function() {
             row = $("#"+msg["uuid"]).find(".download").html(`<td class="download"><a href="${msg["url"]}">Download</a></td>`)
         }
     });
+
+    // Inventory
+    $('#update_inventory').click(function(event) {
+        uuid = uuidv4()
+        task = "update_inventory"
+        datetime = Date()
+        payload = {"uuid": uuid, "datetime": datetime, "task": task}
+        socket.emit('update', payload)
+        log(uuid,datetime,task)
+    });
+
 
 
     // Send updates
