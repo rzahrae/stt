@@ -11,10 +11,11 @@ class BaseModel(Model):
 class Call(Model):
     path = CharField()
     incoming = BooleanField(null=True)
-    extension = IntegerField(null=True)
+    number1 = IntegerField(null=True)
+    number2 = IntegerField(null=True)
     text = CharField(null=True)
     date_time = DateTimeField(null=True)
-    duration = TimeField(null=True)
+    duration = FloatField(null=True)
 
     class Meta:
         database = database

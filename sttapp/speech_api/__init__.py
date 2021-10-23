@@ -25,7 +25,6 @@ def get_stt(filename):
         speech_recognizer.stop_continuous_recognition()
         nonlocal done
         done = True
-        print(transcript)
 
     audio_config = speechsdk.AudioConfig(filename=filename)
     speech_recognizer = speechsdk.SpeechRecognizer(

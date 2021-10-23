@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from flask import Flask, abort, render_template, redirect, request, send_file, url_for
 from peewee import *
 from . import speech_api
@@ -40,14 +41,32 @@ def explore(req_path):
 
     # Show directory contents
     files = os.listdir(abs_path)
-
+    metadata = None
     # Determine if we are on a directory leaf
     if len(files) > 0 and os.path.isfile(os.path.join(abs_path, files[0])):
         leaf = True
+        rel_path = Path(abs_path).relative_to(app.config["DOWNLOAD_FOLDER"])
+        # Compose a dict where relative path is the key
+        metadata = {}
+        for file in files:
+            path = str(rel_path) + "/"+ file
+            file_metadata = db.Call.select().where(db.Call.path == path).get()
+            if file_metadata:
+                data = { "incoming": file_metadata.incoming,
+                        "number1": file_metadata.number1,
+                        "number2": file_metadata.number2,
+                        "text": file_metadata.text,
+                        "date_time": file_metadata.date_time,
+                        "duration": file_metadata.duration
+                }
+                print(data)
+                metadata[path] = data
+            else:
+                metadata[path] = None
     else:
         leaf = False
 
-    return render_template("index.j2", files=files, leaf=leaf)
+    return render_template("index.j2", files=files, metadata=metadata, leaf=leaf)
 
 
 @app.route("/inventory")
