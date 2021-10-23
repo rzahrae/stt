@@ -14,9 +14,8 @@
         <a href="{{ url_for('run_inventory') }}">Run inventory</a>
     </div>
     <div>
-    	{% if leaf %}
+        {% if leaf %}
         <br>
-    	<br>
         {% for file in files %}
         {% if metadata[request.path[1:] + "/" + file ] %}
         <table style="border: 1px solid black;" width="100%">
@@ -44,26 +43,26 @@
         {% else %}
         <br>
         Metadata has not yet been gathered.
-        {% if not loop.last %}
-        <br><br><br>
         {% endif %}
-        {% endif %}
+        <br>
         <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
             Download recording
         </a>
+        {% if not loop.last %}
+        <br><br><br>
+        {% endif %}
         {% endfor %}
         {% else %}
         <ul>
-        {% for file in files %}
+            {% for file in files %}
             <li>
                 <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
                     {{ (request.path + '/' if request.path != '/' else '') + file }}
                 </a>
             </li>
-        {% endfor %}
+            {% endfor %}
         </ul>
         {% endif %}
-        
     </div>
 </body>
 
