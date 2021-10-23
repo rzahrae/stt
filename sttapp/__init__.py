@@ -50,8 +50,9 @@ def explore(req_path):
         metadata = {}
         for file in files:
             path = str(rel_path) + "/" + file
-            file_metadata = db.Call.select().where(db.Call.path == path).get()
+            file_metadata = db.Call.select().where(db.Call.path == path)
             if file_metadata:
+                file_metadata = file_metadata.get()
                 data = {
                     "incoming": file_metadata.incoming,
                     "number1": file_metadata.receiving,
@@ -60,7 +61,6 @@ def explore(req_path):
                     "date_time": file_metadata.date_time,
                     "duration": file_metadata.duration,
                 }
-                print(data)
                 metadata[path] = data
             else:
                 metadata[path] = None

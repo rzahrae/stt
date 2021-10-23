@@ -44,7 +44,11 @@
                         <td>{{ metadata[request.path[1:] + "/" + file ]["text"] }}</td>
                     </tr>
                     <table>
+                    	{% else %}
+                    	<br>
+                    	Metadata has not yet been gathered.
                         {% endif %}
+                    	
             </li>
             {% endfor %}
         </ul>
