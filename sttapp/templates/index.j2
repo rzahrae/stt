@@ -40,8 +40,8 @@
               			</tr>
               			<tr>
               				<td>{{ metadata[request.path[1:] + "/" + file ]["date_time"] }}</td>
-              				<td>{{ metadata[request.path[1:] + "/" + file ]["number2"] }}</td>
-              				<td>{{ metadata[request.path[1:] + "/" + file ]["number1"] }}</td>
+              				<td>{{ metadata[request.path[1:] + "/" + file ]["initiating"] }}</td>
+              				<td>{{ metadata[request.path[1:] + "/" + file ]["receiving"] }}</td>
               				<td>{{ metadata[request.path[1:] + "/" + file ]["incoming"] }}</td>
               				<td>{{ metadata[request.path[1:] + "/" + file ]["duration"]|int / 60 }}</td>
               				<td>{{ metadata[request.path[1:] + "/" + file ]["text"] }}</td>

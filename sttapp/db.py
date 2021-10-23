@@ -11,8 +11,8 @@ class BaseModel(Model):
 class Call(Model):
     path = CharField()
     incoming = BooleanField(null=True)
-    number1 = IntegerField(null=True)
-    number2 = IntegerField(null=True)
+    receiving = IntegerField(null=True)
+    initiating = IntegerField(null=True)
     text = CharField(null=True)
     date_time = DateTimeField(null=True)
     duration = FloatField(null=True)

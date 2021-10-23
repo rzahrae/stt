@@ -27,12 +27,12 @@ def run_inventory(basepath):
 
             date_time = datetime.strptime(str_date.group(3) + str_date.group(4), '%Y%m%d%H%M%S')
 
-            number1 = str_date.group(1)
+            receiving = str_date.group(1)
 
-            number2 = str_date.group(2)
+            initiating = str_date.group(2)
 
             # Path has not been inventoried, call API
             text = speech_api.get_stt(str(abs_path))
             duration = librosa.get_duration(filename=abs_path)
-            db.Call(path=rel_path, text=text, duration=duration, date_time=date_time, number1=number1, number2=number2, incoming =incoming ).save()
+            db.Call(path=rel_path, text=text, duration=duration, date_time=date_time, number1=recieving, number2=initiating, incoming=incoming ).save()
 
