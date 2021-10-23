@@ -55,8 +55,8 @@ def explore(req_path):
                 file_metadata = file_metadata.get()
                 data = {
                     "incoming": file_metadata.incoming,
-                    "number1": file_metadata.receiving,
-                    "number2": file_metadata.initiating,
+                    "receiving": file_metadata.receiving,
+                    "initiating": file_metadata.initiating,
                     "text": file_metadata.text,
                     "date_time": file_metadata.date_time,
                     "duration": file_metadata.duration,

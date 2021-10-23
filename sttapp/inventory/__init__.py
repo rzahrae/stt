@@ -43,7 +43,7 @@ def run_inventory(basepath):
                 text=text,
                 duration=duration,
                 date_time=date_time,
-                number1=recieving,
-                number2=initiating,
+                receiving=recieving,
+                initiating=initiating,
                 incoming=incoming,
             ).save()

@@ -10,12 +10,12 @@ class BaseModel(Model):
 
 class Call(Model):
     path = CharField()
-    incoming = BooleanField(null=True)
-    receiving = IntegerField(null=True)
-    initiating = IntegerField(null=True)
-    text = CharField(null=True)
-    date_time = DateTimeField(null=True)
-    duration = FloatField(null=True)
+    incoming = BooleanField()
+    initiating = IntegerField()
+    receiving = IntegerField()
+    text = CharField()
+    date_time = DateTimeField()
+    duration = FloatField()
 
     class Meta:
         database = database
