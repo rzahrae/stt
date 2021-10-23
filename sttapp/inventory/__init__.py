@@ -23,9 +23,13 @@ def run_inventory(basepath):
             else:
                 incoming = False
 
-            str_date = re.search("^.*-([0-9].*)-(.*)-.*([0-9]{8})-([0-9]{6})-.*$", filename)
+            str_date = re.search(
+                "^.*-([0-9].*)-(.*)-.*([0-9]{8})-([0-9]{6})-.*$", filename
+            )
 
-            date_time = datetime.strptime(str_date.group(3) + str_date.group(4), '%Y%m%d%H%M%S')
+            date_time = datetime.strptime(
+                str_date.group(3) + str_date.group(4), "%Y%m%d%H%M%S"
+            )
 
             receiving = str_date.group(1)
 
@@ -34,5 +38,12 @@ def run_inventory(basepath):
             # Path has not been inventoried, call API
             text = speech_api.get_stt(str(abs_path))
             duration = librosa.get_duration(filename=abs_path)
-            db.Call(path=rel_path, text=text, duration=duration, date_time=date_time, number1=recieving, number2=initiating, incoming=incoming ).save()
-
+            db.Call(
+                path=rel_path,
+                text=text,
+                duration=duration,
+                date_time=date_time,
+                number1=recieving,
+                number2=initiating,
+                incoming=incoming,
+            ).save()

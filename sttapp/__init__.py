@@ -49,15 +49,16 @@ def explore(req_path):
         # Compose a dict where relative path is the key
         metadata = {}
         for file in files:
-            path = str(rel_path) + "/"+ file
+            path = str(rel_path) + "/" + file
             file_metadata = db.Call.select().where(db.Call.path == path).get()
             if file_metadata:
-                data = { "incoming": file_metadata.incoming,
-                        "number1": file_metadata.receiving,
-                        "number2": file_metadata.initiating,
-                        "text": file_metadata.text,
-                        "date_time": file_metadata.date_time,
-                        "duration": file_metadata.duration
+                data = {
+                    "incoming": file_metadata.incoming,
+                    "number1": file_metadata.receiving,
+                    "number2": file_metadata.initiating,
+                    "text": file_metadata.text,
+                    "date_time": file_metadata.date_time,
+                    "duration": file_metadata.duration,
                 }
                 print(data)
                 metadata[path] = data

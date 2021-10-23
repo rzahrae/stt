@@ -20,41 +20,31 @@
                 </a>
                 {% if leaf %}
                 <br>
-                <br>
                 <audio controls>
                     <source src="{{ (request.path + '/' if request.path != '/' else '') + file }}" type="audio/wav">
                     Your browser does not support the audio element.
                 </audio>
                 {% endif %}
-                <br>
-
                 {% if metadata[request.path[1:] + "/" + file ] %}
-              		<table style="border: 1px solid black;" width="100%">
-              			<tr>
-              				<th>Time & Date</th>
-              				<th>Initiating #</th>
-              				<th>Receiving #</th>
-              				<th>Incoming?</th>
-              				<th>Duration (min)</th>
-              				<th>Text</th>
-              			</tr>
-              			<tr>
-              				<td>{{ metadata[request.path[1:] + "/" + file ]["date_time"] }}</td>
-              				<td>{{ metadata[request.path[1:] + "/" + file ]["initiating"] }}</td>
-              				<td>{{ metadata[request.path[1:] + "/" + file ]["receiving"] }}</td>
-              				<td>{{ metadata[request.path[1:] + "/" + file ]["incoming"] }}</td>
-              				<td>{{ metadata[request.path[1:] + "/" + file ]["duration"]|int / 60 }}</td>
-              				<td>{{ metadata[request.path[1:] + "/" + file ]["text"] }}</td>
-              			</tr>
-              		<table>
-
-
-
-
-
-                {% endif %}
-                <br><br>
-
+                <table style="border: 1px solid black;" width="100%">
+                    <tr>
+                        <th>Time & Date</th>
+                        <th>Initiating #</th>
+                        <th>Receiving #</th>
+                        <th>Incoming?</th>
+                        <th>Duration (min)</th>
+                        <th>Text</th>
+                    </tr>
+                    <tr>
+                        <td>{{ metadata[request.path[1:] + "/" + file ]["date_time"] }}</td>
+                        <td>{{ metadata[request.path[1:] + "/" + file ]["initiating"] }}</td>
+                        <td>{{ metadata[request.path[1:] + "/" + file ]["receiving"] }}</td>
+                        <td>{{ metadata[request.path[1:] + "/" + file ]["incoming"] }}</td>
+                        <td>{{ metadata[request.path[1:] + "/" + file ]["duration"]|int / 60 }}</td>
+                        <td>{{ metadata[request.path[1:] + "/" + file ]["text"] }}</td>
+                    </tr>
+                    <table>
+                        {% endif %}
             </li>
             {% endfor %}
         </ul>

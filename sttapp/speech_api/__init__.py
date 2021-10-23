@@ -1,7 +1,6 @@
 import json
 import time
 import azure.cognitiveservices.speech as speechsdk
-import speech_recognition as sr
 from flask import current_app
 
 # Replace with your own subscription key and region identifier from here: https://aka.ms/speech/sdkregion
