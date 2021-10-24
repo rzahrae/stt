@@ -31,6 +31,8 @@ def explore(req_path):
     # Joining the base and the requested path
     abs_path = os.path.join(app.config["DOWNLOAD_FOLDER"], req_path)
 
+
+
     # Return 404 if path doesn't exist
     if not os.path.exists(abs_path):
         return abort(404)
