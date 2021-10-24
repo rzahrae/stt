@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+</head>
+
+<body>
+    <div>
+        <h2>stt</h2>
+    </div>
+    <div>
+        <a href="{{ url_for('explore') }}">Home</a>
+        -
+        <a href="{{ url_for('run_inventory') }}">Run Inventory</a>
+        {% if leaf %}
+        - <a href="{{ request.path|parent }}">Go Back to Month View</a>
+        {% endif %}
+
+    </div>
+    <div id="content">{% block content %}{% endblock %}</div>
+</body>
+
+</html>
