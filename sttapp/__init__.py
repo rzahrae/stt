@@ -58,7 +58,8 @@ def explore(req_path):
         # Compose a dict where relative path is the key
         metadata = {}
         for file in files:
-            path = str(rel_path) + "/" + file
+            path = rel_path.joinpath(file)
+            print(str(path))
             file_metadata = db.Call.select().where(db.Call.path == path)
             if file_metadata:
                 file_metadata = file_metadata.get()
@@ -70,14 +71,20 @@ def explore(req_path):
                     "date_time": file_metadata.date_time,
                     "duration": file_metadata.duration,
                 }
-                metadata[path] = data
+                metadata[str(path)] = data
             else:
-                metadata[path] = None
+                metadata[str(path)] = None
     else:
         leaf = False
 
     return render_template("explore.j2", files=files, metadata=metadata, leaf=leaf)
 
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    if request.method == "POST":
+        pass
+
+    return render_template("search.j2")
 
 @app.route("/inventory")
 def run_inventory():
