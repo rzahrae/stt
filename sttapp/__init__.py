@@ -43,7 +43,7 @@ def explore(req_path):
     files = os.listdir(abs_path)
     metadata = None
     # Determine if we are on a directory leaf
-    if len(files) > 0 and os.path.isfile(os.path.join(abs_path, files[0])):
+    if len(files) > 0 and abs_path.joinpath(files[0]).is_file():
         leaf = True
         rel_path = abs_path.relative_to(app.config["DOWNLOAD_FOLDER"])
         # Compose a dict where relative path is the key
