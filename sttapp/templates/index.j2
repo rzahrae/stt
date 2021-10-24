@@ -1,69 +1,54 @@
-<!doctype html>
-<html lang="en">
+{% extends "base.j2" %}
+{% block title %}Index{% endblock %}
 
-<head>
-</head>
-
-<body>
-    <div>
-        <h2>stt</h2>
-    </div>
-    <div>
-        <a href="{{ url_for('explore') }}">Home</a>
-        <br>
-        <a href="{{ url_for('run_inventory') }}">Run inventory</a>
-    </div>
-    <div>
-        {% if leaf %}
-        <br>
+{% block content %}
+  {% if leaf %}
+    <br>
+    {% for file in files %}
+      {% if metadata[request.path[1:] + "/" + file ] %}
+      <table style="border: 1px solid black;" width="100%">
+          <tr>
+              <th style="border: 1px solid black;">Time & Date</th>
+              <th style="border: 1px solid black;">Initiating #</th>
+              <th style="border: 1px solid black;">Receiving #</th>
+              <th style="border: 1px solid black;">Incoming?</th>
+              <th style="border: 1px solid black;">Duration (min)</th>
+              <th style="border: 1px solid black;">Text</th>
+          </tr>
+          <tr>
+              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["date_time"] }}</td>
+              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["initiating"] }}</td>
+              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["receiving"] }}</td>
+              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["incoming"] }}</td>
+              <td style="border: 1px solid black;">{{ "%.2f" | format(metadata[request.path[1:] + "/" + file ]["duration"]|int / 60) }}</td>
+              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["text"] }}</td>
+          </tr>
+      </table>
+      <audio controls>
+          <source src="{{ (request.path + '/' if request.path != '/' else '') + file }}" type="audio/wav">
+          Your browser does not support the audio element.
+      </audio>
+      {% else %}
+      <br>
+      Metadata has not yet been gathered.
+      {% endif %}
+    <br>
+    <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
+        Download recording
+    </a>
+      {% if not loop.last %}
+      <br><br><br>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <ul>
         {% for file in files %}
-        {% if metadata[request.path[1:] + "/" + file ] %}
-        <table style="border: 1px solid black;" width="100%">
-            <tr>
-                <th style="border: 1px solid black;">Time & Date</th>
-                <th style="border: 1px solid black;">Initiating #</th>
-                <th style="border: 1px solid black;">Receiving #</th>
-                <th style="border: 1px solid black;">Incoming?</th>
-                <th style="border: 1px solid black;">Duration (min)</th>
-                <th style="border: 1px solid black;">Text</th>
-            </tr>
-            <tr>
-                <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["date_time"] }}</td>
-                <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["initiating"] }}</td>
-                <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["receiving"] }}</td>
-                <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["incoming"] }}</td>
-                <td style="border: 1px solid black;">{{ "%.2f" | format(metadata[request.path[1:] + "/" + file ]["duration"]|int / 60) }}</td>
-                <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["text"] }}</td>
-            </tr>
-        </table>
-        <audio controls>
-            <source src="{{ (request.path + '/' if request.path != '/' else '') + file }}" type="audio/wav">
-            Your browser does not support the audio element.
-        </audio>
-        {% else %}
-        <br>
-        Metadata has not yet been gathered.
-        {% endif %}
-        <br>
-        <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
-            Download recording
-        </a>
-        {% if not loop.last %}
-        <br><br><br>
-        {% endif %}
+        <li>
+            <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
+                {{ (request.path + '/' if request.path != '/' else '') + file }}
+            </a>
+        </li>
         {% endfor %}
-        {% else %}
-        <ul>
-            {% for file in files %}
-            <li>
-                <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
-                    {{ (request.path + '/' if request.path != '/' else '') + file }}
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-</body>
-
-</html>
+    </ul>
+  {% endif %}
+{% endblock %}
