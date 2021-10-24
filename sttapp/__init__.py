@@ -29,9 +29,7 @@ def after_request(response):
 @app.route("/<path:req_path>")
 def explore(req_path):
     # Joining the base and the requested path
-    abs_path = os.path.join(app.config["DOWNLOAD_FOLDER"], req_path)
-
-
+    abs_path = Path(app.config["DOWNLOAD_FOLDER"]).joinpath(req_path)
 
     # Return 404 if path doesn't exist
     if not os.path.exists(abs_path):
@@ -47,7 +45,7 @@ def explore(req_path):
     # Determine if we are on a directory leaf
     if len(files) > 0 and os.path.isfile(os.path.join(abs_path, files[0])):
         leaf = True
-        rel_path = Path(abs_path).relative_to(app.config["DOWNLOAD_FOLDER"])
+        rel_path = abs_path.relative_to(app.config["DOWNLOAD_FOLDER"])
         # Compose a dict where relative path is the key
         metadata = {}
         for file in files:
