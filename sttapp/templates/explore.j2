@@ -1,8 +1,12 @@
 {% extends "base.j2" %}
-{% block title %}Index{% endblock %}
+{% block title %}<h2>Explore</h2>{% endblock %}
 
 {% block content %}
   {% if leaf %}
+      {% if leaf %}
+      <a href="{{ request.path|parent }}">Go Back to Month View</a>
+      <br>
+      {% endif %}
     <br>
     {% for file in files %}
       {% if metadata[request.path[1:] + "/" + file ] %}
