@@ -13,6 +13,10 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret!"
 app.config["DOWNLOAD_FOLDER"] = os.path.join(os.getcwd(), "instance/data")
 
+@app.template_filter('parent')
+def parent(path):
+    path = Path(path)
+    return path.parent
 
 @app.before_request
 def before_request():
@@ -67,7 +71,7 @@ def explore(req_path):
     else:
         leaf = False
 
-    return render_template("index.j2", files=files, metadata=metadata, leaf=leaf)
+    return render_template("explore.j2", files=files, metadata=metadata, leaf=leaf)
 
 
 @app.route("/inventory")
