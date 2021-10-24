@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import datetime
 from flask import Flask, abort, render_template, redirect, request, send_file, url_for
 from peewee import *
 from . import speech_api
@@ -17,6 +18,10 @@ app.config["DOWNLOAD_FOLDER"] = os.path.join(os.getcwd(), "instance/data")
 def parent(path):
     path = Path(path)
     return path.parent
+
+@app.template_filter('time_fmt')
+def time_fmt(seconds):
+    return str(datetime.timedelta(seconds = int(seconds)))
 
 @app.before_request
 def before_request():

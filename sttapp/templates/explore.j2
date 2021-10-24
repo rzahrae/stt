@@ -9,18 +9,18 @@
       <table style="border: 1px solid black;" width="100%">
           <tr>
               <th style="border: 1px solid black;">Time & Date</th>
-              <th style="border: 1px solid black;">Initiating #</th>
-              <th style="border: 1px solid black;">Receiving #</th>
+              <th style="border: 1px solid black;">Init. #</th>
+              <th style="border: 1px solid black;">Recv. #</th>
               <th style="border: 1px solid black;">Incoming?</th>
-              <th style="border: 1px solid black;">Duration (min)</th>
+              <th style="border: 1px solid black;">Duration</th>
               <th style="border: 1px solid black;">Text</th>
           </tr>
           <tr>
-              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["date_time"] }}</td>
+              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["date_time"]}}</td>
               <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["initiating"] }}</td>
               <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["receiving"] }}</td>
               <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["incoming"] }}</td>
-              <td style="border: 1px solid black;">{{ "%.2f" | format(metadata[request.path[1:] + "/" + file ]["duration"]|int / 60) }}</td>
+              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["duration"] | time_fmt }}</td>
               <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["text"] }}</td>
           </tr>
       </table>
