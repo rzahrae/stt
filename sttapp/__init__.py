@@ -36,7 +36,7 @@ def explore(req_path):
         return abort(404)
 
     # Check if path is a file and serve
-    if os.path.isfile(abs_path):
+    if abs_path.is_file():
         return send_file(abs_path)
 
     # Show directory contents
