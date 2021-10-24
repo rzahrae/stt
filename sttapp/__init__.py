@@ -83,7 +83,6 @@ def explore(req_path):
 def search():
     if request.method == "POST":
         results = db.Call.select().where(db.Call.text.contains(request.form["text"]))
-        for result in results:
         return render_template("search.j2", results = results)
     else:
         return render_template("search.j2")
