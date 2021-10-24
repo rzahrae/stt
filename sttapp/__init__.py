@@ -82,9 +82,11 @@ def explore(req_path):
 @app.route("/search", methods=["GET", "POST"])
 def search():
     if request.method == "POST":
-        pass
-
-    return render_template("search.j2")
+        results = db.Call.select().where(db.Call.text.contains(request.form["text"]))
+        for result in results:
+        return render_template("search.j2", results = results)
+    else:
+        return render_template("search.j2")
 
 @app.route("/inventory")
 def run_inventory():
