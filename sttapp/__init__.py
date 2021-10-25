@@ -116,7 +116,7 @@ def search():
                 )
 
             if key == "duration" and request.args[key].strip() != "":
-                clauses.append(db.Call.duration > int(request.args.get(key).strip()) * 60)
+                clauses.append(db.Call.duration > (int(request.args.get(key).strip()) * 60))
 
             if key == "text" and request.args[key].strip():
                 clauses.append(db.Call.text.contains(request.args.get(key).strip()))
