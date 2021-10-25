@@ -10,22 +10,22 @@
     <br>
     {% for file in files %}
       {% if metadata[request.path[1:] + "/" + file ] %}
-      <table style="border: 1px solid black;" width="100%">
+      <table width="100%">
           <tr>
-              <th style="border: 1px solid black;">Time & Date</th>
-              <th style="border: 1px solid black;">Init. #</th>
-              <th style="border: 1px solid black;">Recv. #</th>
-              <th style="border: 1px solid black;">Incoming?</th>
-              <th style="border: 1px solid black;">Duration</th>
-              <th style="border: 1px solid black;">Text</th>
+              <th>Time & Date</th>
+              <th>Init. #</th>
+              <th>Recv. #</th>
+              <th>Incoming?</th>
+              <th>Duration</th>
+              <th>Text</th>
           </tr>
           <tr>
-              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["date_time"]}}</td>
-              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["initiating"] }}</td>
-              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["receiving"] }}</td>
-              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["incoming"] }}</td>
-              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["duration"] | time_fmt }}</td>
-              <td style="border: 1px solid black;">{{ metadata[request.path[1:] + "/" + file ]["text"] }}</td>
+              <td>{{ metadata[request.path[1:] + "/" + file ]["date_time"]}}</td>
+              <td>{{ metadata[request.path[1:] + "/" + file ]["initiating"] }}</td>
+              <td>{{ metadata[request.path[1:] + "/" + file ]["receiving"] }}</td>
+              <td>{{ metadata[request.path[1:] + "/" + file ]["incoming"] }}</td>
+              <td>{{ metadata[request.path[1:] + "/" + file ]["duration"] | time_fmt }}</td>
+              <td>{{ metadata[request.path[1:] + "/" + file ]["text"] }}</td>
           </tr>
       </table>
       <audio controls>

@@ -1,8 +1,11 @@
 import os
+import re
 from pathlib import Path
 import datetime
 from flask import Flask, abort, render_template, redirect, request, send_file, url_for
 from peewee import *
+import operator
+import functools
 from . import speech_api
 from . import inventory
 from . import db
@@ -14,14 +17,17 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "secret!"
 app.config["DOWNLOAD_FOLDER"] = os.path.join(os.getcwd(), "instance/data")
 
-@app.template_filter('parent')
+
+@app.template_filter("parent")
 def parent(path):
     path = Path(path)
     return path.parent
 
-@app.template_filter('time_fmt')
+
+@app.template_filter("time_fmt")
 def time_fmt(seconds):
-    return str(datetime.timedelta(seconds = int(seconds)))
+    return str(datetime.timedelta(seconds=int(seconds)))
+
 
 @app.before_request
 def before_request():
@@ -78,13 +84,33 @@ def explore(req_path):
 
     return render_template("explore.j2", files=files, metadata=metadata, leaf=leaf)
 
+
 @app.route("/search")
 def search():
     if request.args:
-        results = db.Call.select().where(db.Call.text.contains(request.args["text"]))
-        return render_template("search.j2", results = results)
+        print(request.args)
+        clauses = []
+        for key in request.args:
+            if key == "date_filter" and request.args["date_filter"].strip() != "":
+                regex = re.search("^(.*) - (.*)$", request.args.get("date_filter"))
+                start_date = datetime.datetime.strptime(regex.group(1), "%m/%d/%Y %I:%M %p")
+                end_date = datetime.datetime.strptime(regex.group(2), "%m/%d/%Y %I:%M %p")
+                clauses.append(db.Call.date_time >= start_date)
+                clauses.append(db.Call.date_time <= end_date)
+            elif key == "text":
+                clauses.append(db.Call.text.contains(request.args.get("text")))
+
+        if request.args["logic"] == "and":
+            filter = functools.reduce(operator.and_, clauses)
+        else:
+            filter = functools.reduce(operator.or_, clauses)
+
+        results = db.Call.select().where(filter)
+
+        return render_template("search.j2", results=results, args = request.args)
     else:
         return render_template("search.j2")
+
 
 @app.route("/inventory")
 def run_inventory():
