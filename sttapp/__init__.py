@@ -95,7 +95,9 @@ def search():
                 regex = re.search("^(.*) - (.*)$", request.args.get("date_filter").strip())
                 start_date = datetime.datetime.strptime(regex.group(1), "%m/%d/%Y %I:%M %p")
                 end_date = datetime.datetime.strptime(regex.group(2), "%m/%d/%Y %I:%M %p")
-                clauses.append(db.Call.date_time >= start_date and db.Call.date_time <= end_date)
+
+                
+                clauses.append((db.Call.date_time >= start_date) & (db.Call.date_time <= end_date))
             elif key == "text":
                 clauses.append(db.Call.text.contains(request.args.get("text").strip()))
 
