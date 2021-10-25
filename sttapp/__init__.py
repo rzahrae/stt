@@ -2,7 +2,7 @@ import os
 import re
 from pathlib import Path
 import datetime
-from flask import Flask, abort, render_template, redirect, request, send_file, url_for
+from flask import Flask, flash, abort, render_template, redirect, request, send_file, url_for
 from peewee import *
 import operator
 import functools
@@ -124,6 +124,9 @@ def search():
             filter = functools.reduce(operator.or_, clauses)
 
         results = db.Call.select().where(filter)
+
+        if not results.exists():
+            flash("Nothing found!")
 
         return render_template("search.j2", results=results, args=request.args)
     else:
