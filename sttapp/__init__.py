@@ -116,6 +116,9 @@ def search():
                 )
 
             if key == "max_duration" and request.args[key].strip() != "":
+                clauses.append(db.Call.duration <= float(request.args.get(key).strip()) * 60)
+
+            if key == "min_duration" and request.args[key].strip() != "":
                 clauses.append(db.Call.duration >= float(request.args.get(key).strip()) * 60)
 
             if key == "text" and request.args[key].strip():
