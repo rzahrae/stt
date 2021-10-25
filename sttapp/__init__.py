@@ -140,8 +140,8 @@ def search():
                     db.Call.duration >= float(request.args.get(key).strip()) * 60
                 )
 
-            if key == "text" and request.args[key].strip():
-                clauses.append(db.Call.text.contains(request.args.get(key).strip()))
+            if key == "text":
+                clauses.append(db.Call.text.contains(request.args.get(key)))
         try:
             if request.args["logic"] == "and":
                 filter = functools.reduce(operator.and_, clauses)
