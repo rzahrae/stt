@@ -78,10 +78,10 @@ def explore(req_path):
 
     return render_template("explore.j2", files=files, metadata=metadata, leaf=leaf)
 
-@app.route("/search", methods=["GET", "POST"])
+@app.route("/search")
 def search():
-    if request.method == "POST":
-        results = db.Call.select().where(db.Call.text.contains(request.form["text"]))
+    if request.args:
+        results = db.Call.select().where(db.Call.text.contains(request.args["text"]))
         return render_template("search.j2", results = results)
     else:
         return render_template("search.j2")
