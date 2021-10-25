@@ -115,6 +115,9 @@ def search():
                     | (db.Call.receiving == request.args.get(key).strip())
                 )
 
+            if key == "duration" and request.args[key].strip() != "":
+                clauses.append(db.Call.duration > int(request.args.get(key).strip()) * 60)
+
             if key == "text" and request.args[key].strip():
                 clauses.append(db.Call.text.contains(request.args.get(key).strip()))
 
@@ -130,7 +133,7 @@ def search():
 
         return render_template("search.j2", results=results, args=request.args)
     else:
-        return render_template("search.j2")
+        return render_template("search.j2", args=request.args)
 
 
 @app.route("/inventory")
