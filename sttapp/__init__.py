@@ -2,7 +2,16 @@ import os
 import re
 from pathlib import Path
 import datetime
-from flask import Flask, flash, abort, render_template, redirect, request, send_file, url_for
+from flask import (
+    Flask,
+    flash,
+    abort,
+    render_template,
+    redirect,
+    request,
+    send_file,
+    url_for,
+)
 from peewee import *
 import operator
 import functools
@@ -109,7 +118,7 @@ def search():
             if key == "receiving" and request.args[key].strip() != "":
                 clauses.append(db.Call.receiving == request.args.get(key).strip())
 
-            if key == "bi-directional" and request.args[key].strip()  != "":
+            if key == "bi-directional" and request.args[key].strip() != "":
                 clauses.append(
                     (db.Call.initiating == request.args.get(key).strip())
                     | (db.Call.receiving == request.args.get(key).strip())
@@ -122,10 +131,14 @@ def search():
                     clauses.append(db.Call.incoming == False)
 
             if key == "max_duration" and request.args[key].strip() != "":
-                clauses.append(db.Call.duration <= float(request.args.get(key).strip()) * 60)
+                clauses.append(
+                    db.Call.duration <= float(request.args.get(key).strip()) * 60
+                )
 
             if key == "min_duration" and request.args[key].strip() != "":
-                clauses.append(db.Call.duration >= float(request.args.get(key).strip()) * 60)
+                clauses.append(
+                    db.Call.duration >= float(request.args.get(key).strip()) * 60
+                )
 
             if key == "text" and request.args[key].strip():
                 clauses.append(db.Call.text.contains(request.args.get(key).strip()))
@@ -142,7 +155,7 @@ def search():
             return render_template("search.j2", results=results, args=request.args)
         except Exception as e:
             flash(str(e))
-            return(redirect(url_for("search")))
+            return redirect(url_for("search"))
     else:
         return render_template("search.j2", args=request.args)
 
