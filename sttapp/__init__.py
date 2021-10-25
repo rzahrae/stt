@@ -91,15 +91,32 @@ def search():
         print(request.args)
         clauses = []
         for key in request.args:
-            if key == "date_filter" and request.args["date_filter"].strip() != "":
-                regex = re.search("^(.*) - (.*)$", request.args.get("date_filter").strip())
-                start_date = datetime.datetime.strptime(regex.group(1), "%m/%d/%Y %I:%M %p")
-                end_date = datetime.datetime.strptime(regex.group(2), "%m/%d/%Y %I:%M %p")
-
-                
+            if key == "date_filter" and request.args[key].strip() != "":
+                regex = re.search(
+                    "^(.*) - (.*)$", request.args.get("date_filter").strip()
+                )
+                start_date = datetime.datetime.strptime(
+                    regex.group(1), "%m/%d/%Y %I:%M %p"
+                )
+                end_date = datetime.datetime.strptime(
+                    regex.group(2), "%m/%d/%Y %I:%M %p"
+                )
                 clauses.append((db.Call.date_time.between(start_date, end_date)))
-            elif key == "text":
-                clauses.append(db.Call.text.contains(request.args.get("text").strip()))
+
+            if key == "initiating" and request.args[key].strip() != "":
+                clauses.append(db.Call.initiating == request.args.get(key).strip())
+
+            if key == "receiving" and request.args[key].strip() != "":
+                clauses.append(db.Call.receiving == request.args.get(key).strip())
+
+            if key == "bi-directional" and request.args[key].strip()  != "":
+                clauses.append(
+                    (db.Call.initiating == request.args.get(key).strip())
+                    | (db.Call.receiving == request.args.get(key).strip())
+                )
+
+            if key == "text" and request.args[key].strip():
+                clauses.append(db.Call.text.contains(request.args.get(key).strip()))
 
         if request.args["logic"] == "and":
             filter = functools.reduce(operator.and_, clauses)
@@ -108,9 +125,7 @@ def search():
 
         results = db.Call.select().where(filter)
 
-        print(results)
-
-        return render_template("search.j2", results=results, args = request.args)
+        return render_template("search.j2", results=results, args=request.args)
     else:
         return render_template("search.j2")
 
