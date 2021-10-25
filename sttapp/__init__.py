@@ -115,8 +115,8 @@ def search():
                     | (db.Call.receiving == request.args.get(key).strip())
                 )
 
-            if key == "duration" and request.args[key].strip() != "":
-                clauses.append(db.Call.duration > (int(request.args.get(key).strip()) * 60))
+            if key == "max_duration" and request.args[key].strip() != "":
+                clauses.append(db.Call.duration >= float(request.args.get(key).strip()) * 60)
 
             if key == "text" and request.args[key].strip():
                 clauses.append(db.Call.text.contains(request.args.get(key).strip()))
