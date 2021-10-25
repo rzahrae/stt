@@ -19,3 +19,17 @@ class Call(Model):
 
     class Meta:
         database = database
+
+
+class Inventory(Model):
+    def refresh(self):
+        return type(self).get(self._pk_expr())
+
+    total_paths = IntegerField()
+    skipped_paths = IntegerField()
+    finished_paths = IntegerField()
+    start_date = DateTimeField()
+    end_date = DateTimeField(null = True)
+
+    class Meta:
+        database = database

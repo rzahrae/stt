@@ -8,7 +8,19 @@ from .. import speech_api
 
 def run_inventory(basepath):
     print("Inventorying base path: " + basepath)
-    for abs_path in Path(basepath).rglob("*.wav"):
+
+    abs_paths = Path(basepath).rglob("*.wav")
+
+    inventory = db.Inventory(
+        total_paths=100,
+        skipped_paths=0,
+        finished_paths=0,
+        start_date=datetime.now(),
+        end_date=None
+    )
+    inventory.save()
+
+    for abs_path in abs_paths:
         rel_path = abs_path.relative_to(basepath)
         # Check if our path has already been inventoried
         print("checking " + str(rel_path))
@@ -47,3 +59,8 @@ def run_inventory(basepath):
                 initiating=initiating,
                 incoming=incoming,
             ).save()
+        else:
+            query = db.Inventory.update(skipped_paths = inventory.skipped_paths + 1).where(db.Inventory.id == inventory.id)
+            query.execute()
+            # Refresh inventory object
+            inventory = inventory.refresh()

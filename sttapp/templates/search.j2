@@ -25,7 +25,7 @@
   <label for="receiving">Receiving #</label>
   <br>
   <input type="number" min="0" name="bi-directional" class="teleNum" {% if args %}value="{{ args['bi-directional'] }}"{% endif%}>
-  <label for="receiving">Bi-Directional #</label>
+  <label for="receiving">Initiating or Receiving #</label>
   <br>
   <input type="radio" name="direction" value="incoming"{% if args and args['direction'] == 'incoming' %}checked="checked"{% endif %}>
   <label for="direction">Incoming</label>

@@ -19,7 +19,7 @@ from . import speech_api
 from . import inventory
 from . import db
 
-db.database.create_tables([db.Call])
+db.database.create_tables([db.Call, db.Inventory])
 
 app = Flask(__name__)
 
