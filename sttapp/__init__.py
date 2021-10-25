@@ -92,7 +92,7 @@ def search():
         clauses = []
         for key in request.args:
             if key == "date_filter" and request.args["date_filter"].strip() != "":
-                regex = re.search("^(.*) - (.*)$", request.args.get("date_filter"))
+                regex = re.search("^(.*) - (.*)$", request.args.get("date_filter").strip())
                 start_date = datetime.datetime.strptime(regex.group(1), "%m/%d/%Y %I:%M %p")
                 end_date = datetime.datetime.strptime(regex.group(2), "%m/%d/%Y %I:%M %p")
                 clauses.append(db.Call.date_time >= start_date)
