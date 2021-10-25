@@ -59,7 +59,6 @@ def explore(req_path):
         metadata = {}
         for file in files:
             path = rel_path.joinpath(file)
-            print(str(path))
             file_metadata = db.Call.select().where(db.Call.path == path)
             if file_metadata:
                 file_metadata = file_metadata.get()
