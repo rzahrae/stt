@@ -1,0 +1,16 @@
+table, th, td {
+	border: 1px solid black
+}
+
+.teleNum {
+	width: 12ch;
+}
+
+.duration {
+  width: 5ch;
+}
+
+.flashes {
+	color: red;
+}
+

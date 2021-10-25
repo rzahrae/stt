@@ -1,0 +1,86 @@
+{% extends "base.j2" %}
+{% block head %}
+{% if results %}
+{% endif %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script type="text/javascript" src="/static/script.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+
+{% endblock %}
+{% block title %}<h2>Search</h2>{% endblock %}
+{% block content %}
+  <form>
+  <input type="text" name="text" size=38 {%if args %}value="{{ args['text'] }}"{% endif %}>
+  <label for="text">Text</label>
+  <br>
+  <input type="text" name="date_filter" size=38 {% if args %}value="{{ args['date_filter'] }}"{% endif%}>
+  <label for="date_filter">Date Filter</label>
+  <br>
+  <input type="number" min="0" name="initiating" class="teleNum" {% if args %}value="{{ args['initiating'] }}"{% endif%}>
+  <label for="initiating">Initiating #</label>
+  <br>
+  <input type="number" min="0" name="receiving" class="teleNum" {% if args %}value="{{ args['receiving'] }}"{% endif%}>
+  <label for="receiving">Receiving #</label>
+  <br>
+  <input type="number" min="0" name="bi-directional" class="teleNum" {% if args %}value="{{ args['bi-directional'] }}"{% endif%}>
+  <label for="receiving">Bi-Directional #</label>
+  <br>
+  <input type="radio" name="direction" value="incoming"{% if args and args['direction'] == 'incoming' %}checked="checked"{% endif %}>
+  <label for="direction">Incoming</label>
+  <input type="radio" name="direction" value="outgoing"{% if args and args['direction'] == 'outgoing' %}checked="checked"{% endif %}>
+  <label for="direction">Outgoing</label>
+  <br>
+  <input type="number" min="0" name="min_duration" class="duration"{% if args %}value="{{ args['min_duration'] }}"{% endif%}>
+  <label>Min. Duration (mins)</label>
+  <br>
+  <input type="number" min="0" name="max_duration" class="duration"{% if args %}value="{{ args['max_duration'] }}"{% endif%}>
+  <label>Max. Duration (mins)</label>
+
+  <br>
+  Logical Operator (across all fields):
+  <br>
+  <input type="radio" name="logic" value="and" {% if args and args['logic'] == 'and' %}checked="checked"{% elif not args %}checked="checked"{% endif %}>
+  <label for="and">AND</label>
+  <input type="radio" name="logic" value="or"{% if args and args['logic'] == 'or' %}checked="checked"{% endif %}>
+  <label for="or">OR</label>
+  <br>
+  <input type=submit>
+  <br>
+  <a href="{{ url_for('search') }}">(Or, Reset Search)</a>
+{% if results %}
+  <h3>{{ results | length }} Results:</h3>
+  <table width="100%">
+      <tr>
+          <th>Time & Date</th>
+          <th>Init. #</th>
+          <th>Recv. #</th>
+          <th>Incoming?</th>
+          <th>Duration</th>
+          <th>Text</th>
+          <th>Audio</th>
+      </tr>
+    {% for result in results %}
+        <tr>
+            <td>{{ result.date_time }}</td>
+            <td>{{ result.initiating }}</td>
+            <td>{{ result.receiving }}</td>
+            <td>{{ result.incoming }}</td>
+            <td>{{ result.duration | time_fmt }}</td>
+            <td>{{ result.text }}</td>
+            <td>
+              <audio controls>
+                  <source src="/{{ result.path }}" type="audio/wav">
+                  Your browser does not support the audio element.
+              </audio>
+            </td>
+        </tr>
+    {% endfor %}
+  </table>
+  <br>
+  {{ results }}
+{% endif %}
+
+</form>
+{% endblock %}
