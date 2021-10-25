@@ -123,18 +123,20 @@ def search():
 
             if key == "text" and request.args[key].strip():
                 clauses.append(db.Call.text.contains(request.args.get(key).strip()))
+        try:
+            if request.args["logic"] == "and":
+                filter = functools.reduce(operator.and_, clauses)
+            else:
+                filter = functools.reduce(operator.or_, clauses)
 
-        if request.args["logic"] == "and":
-            filter = functools.reduce(operator.and_, clauses)
-        else:
-            filter = functools.reduce(operator.or_, clauses)
+            results = db.Call.select().where(filter)
 
-        results = db.Call.select().where(filter)
-
-        if not results.exists():
-            flash("Nothing found!")
-
-        return render_template("search.j2", results=results, args=request.args)
+            if not results.exists():
+                flash("Nothing found!")
+            return render_template("search.j2", results=results, args=request.args)
+        except Exception as e:
+            flash(str(e))
+            return(redirect(url_for("search")))
     else:
         return render_template("search.j2", args=request.args)
 
