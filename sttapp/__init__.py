@@ -97,7 +97,7 @@ def search():
                 end_date = datetime.datetime.strptime(regex.group(2), "%m/%d/%Y %I:%M %p")
 
                 
-                clauses.append((db.Call.date_time >= start_date) & (db.Call.date_time <= end_date))
+                clauses.append((db.Call.date_time.between(start_date, end_date)))
             elif key == "text":
                 clauses.append(db.Call.text.contains(request.args.get("text").strip()))
 
