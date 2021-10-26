@@ -1,22 +1,34 @@
 from pathlib import Path
 from datetime import datetime
+import threading
+import itertools
 import re
+from flask import current_app
 import librosa
 from .. import db
 from .. import speech_api
 
 
-def run_inventory(basepath):
+def run_inventory():
+    basepath = current_app.config["DOWNLOAD_FOLDER"]
+
     print("Inventorying base path: " + basepath)
 
     abs_paths = Path(basepath).rglob("*.wav")
 
+    abs_paths, abs_paths_counter = itertools.tee(abs_paths)
+
+    total_paths = 0
+
+    for abs_path in abs_paths_counter:
+        total_paths += 1
+
     inventory = db.Inventory(
-        total_paths=100,
+        total_paths=total_paths,
         skipped_paths=0,
         finished_paths=0,
         start_date=datetime.now(),
-        end_date=None
+        end_date=None,
     )
     inventory.save()
 
@@ -58,9 +70,21 @@ def run_inventory(basepath):
                 receiving=receiving,
                 initiating=initiating,
                 incoming=incoming,
+                inventory=inventory,
             ).save()
+            query = db.Inventory.update(
+                finished_paths=inventory.finished_paths + 1
+            ).where(db.Inventory.id == inventory.id)
         else:
-            query = db.Inventory.update(skipped_paths = inventory.skipped_paths + 1).where(db.Inventory.id == inventory.id)
-            query.execute()
-            # Refresh inventory object
-            inventory = inventory.refresh()
+            query = db.Inventory.update(
+                skipped_paths=inventory.skipped_paths + 1
+            ).where(db.Inventory.id == inventory.id)
+
+        query.execute()
+        inventory = inventory.refresh()
+    inventory.end_date = datetime.now()
+    inventory.save()
+
+def dispatch_inventory():
+    inventory_thread = threading.Thread(target=run_inventory())
+    inventory_thread.start()

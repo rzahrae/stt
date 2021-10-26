@@ -27,10 +27,10 @@
   <input type="number" min="0" name="bi-directional" class="teleNum" {% if args %}value="{{ args['bi-directional'] }}"{% endif%}>
   <label for="receiving">Initiating or Receiving #</label>
   <br>
-  <input type="radio" name="direction" value="incoming"{% if args and args['direction'] == 'incoming' %}checked="checked"{% endif %}>
-  <label for="direction">Incoming</label>
-  <input type="radio" name="direction" value="outgoing"{% if args and args['direction'] == 'outgoing' %}checked="checked"{% endif %}>
-  <label for="direction">Outgoing</label>
+  <input type="checkbox" name="incoming" {% if args and args['incoming'] == 'on' %}checked="checked"{% endif %}>
+  <label for="incoming">Incoming</label>
+  <input type="checkbox" name="outgoing" {% if args and args['outgoing'] == 'on' %}checked="checked"{% endif %}>
+  <label for="outgoing">Outgoing</label>
   <br>
   <input type="number" min="0" name="min_duration" class="duration"{% if args %}value="{{ args['min_duration'] }}"{% endif%}>
   <label>Min. Duration (mins)</label>

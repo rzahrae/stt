@@ -12,6 +12,7 @@ from flask import (
     send_file,
     url_for,
 )
+from flask_executor import Executor
 from peewee import *
 import operator
 import functools
@@ -22,6 +23,9 @@ from . import db
 db.database.create_tables([db.Call, db.Inventory])
 
 app = Flask(__name__)
+
+app.config['EXECUTOR_PROPAGATE_EXCEPTIONS'] = True
+executor = Executor(app)
 
 app.config["SECRET_KEY"] = "secret!"
 app.config["DOWNLOAD_FOLDER"] = os.path.join(os.getcwd(), "instance/data")
@@ -124,11 +128,11 @@ def search():
                     | (db.Call.receiving == request.args.get(key).strip())
                 )
 
-            if key == "direction":
-                if request.args.get(key) == "incoming":
-                    clauses.append(db.Call.incoming == True)
-                else:
-                    clauses.append(db.Call.incoming == False)
+            if key == "incoming" and not request.args.get("outgoing"):
+                clauses.append(db.Call.incoming == True)
+
+            if key == "outgoing" and not request.args.get("incoming"):
+                clauses.append(db.Call.incoming == False)        
 
             if key == "max_duration" and request.args[key].strip() != "":
                 clauses.append(
@@ -160,7 +164,34 @@ def search():
         return render_template("search.j2", args=request.args)
 
 
-@app.route("/inventory")
+@app.route("/run-inventory")
 def run_inventory():
-    inventory.run_inventory(app.config["DOWNLOAD_FOLDER"])
-    return redirect(url_for("explore"))
+    query = db.Inventory.select().where(db.Inventory.end_date == None)
+    if query.exists():
+        print("already inventorying")
+        current_inventory = query.get()
+        flash(
+            "Inventory is already running!  %s/%s"
+            % (
+                current_inventory.skipped_paths + current_inventory.finished_paths,
+                current_inventory.total_paths,
+            )
+        )
+    else:
+        flash("Running inventory!")
+        #inventory.dispatch_inventory()
+        executor.submit(inventory.run_inventory)
+    return redirect(url_for("inventory_status"))
+
+
+@app.route("/inventory-status")
+def inventory_status():
+    query = db.Inventory.select().order_by(db.Inventory.start_date.desc()).limit(1)
+    if query.exists():
+        last_inventory=query.get()
+    else:
+        flash("No inventory found!")
+        last_inventory = None
+    calls = db.Call.select()
+    return render_template("inventory_status.j2", last_inventory=last_inventory)
+
