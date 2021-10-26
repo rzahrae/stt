@@ -1,22 +1,16 @@
+from pathlib import Path
 import json
 import time
 import azure.cognitiveservices.speech as speechsdk
 from flask import current_app
 
-# Replace with your own subscription key and region identifier from here: https://aka.ms/speech/sdkregion
-service_region = "eastus"
-with open("./instance/azure_speech.key") as file:
-    speech_key = file.read().strip()
-
-# Init our SDK
-endpoint = "wss://eastus.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?initialSilenceTimeoutMs=100000&&endSilenceTimeoutMs=100000"
-speech_config = speechsdk.SpeechConfig(subscription=speech_key, endpoint=endpoint)
-
-speech_config.set_property(speechsdk.PropertyId.Speech_LogFilename, "log.txt")
-
-
 def get_stt(filename):
+    speech_config = speechsdk.SpeechConfig(
+        subscription=current_app.config["AZURE_SPEECH_KEY"],
+        region=current_app.config["AZURE_SPEECH_REGION"],
+    )
 
+    speech_config.set_property(speechsdk.PropertyId.Speech_LogFilename, str(Path(current_app.instance_path).joinpath("log.txt")))
     transcript = ""
 
     def stop_cb(evt):

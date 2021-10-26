@@ -22,13 +22,11 @@ from . import db
 
 db.database.create_tables([db.Call, db.Inventory])
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
 
-app.config["EXECUTOR_PROPAGATE_EXCEPTIONS"] = True
+app.config.from_pyfile("config.py")
+
 executor = Executor(app)
-
-app.config["SECRET_KEY"] = "secret!"
-app.config["DOWNLOAD_FOLDER"] = os.path.join(os.getcwd(), "instance/data")
 
 
 @app.template_filter("parent")
