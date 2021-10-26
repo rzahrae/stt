@@ -78,6 +78,7 @@ def explore(req_path):
 
     # Show directory contents
     files = os.listdir(abs_path)
+    files.sort()
     metadata = None
     # Determine if we are on a directory leaf
     if len(files) > 0 and abs_path.joinpath(files[0]).is_file():
@@ -85,7 +86,6 @@ def explore(req_path):
         rel_path = abs_path.relative_to(app.config["DOWNLOAD_FOLDER"])
         # Compose a dict where relative path is the key
         metadata = {}
-        files.sort()
         for file in files:
             path = rel_path.joinpath(file)
             file_metadata = db.Call.select().where(db.Call.path == path)
