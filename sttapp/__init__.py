@@ -216,6 +216,8 @@ def login():
         if user.password == password:
             login_user(user)
             return redirect(url_for("explore"))
+        else:
+            flash("Bad credential!")
     return render_template("login.j2")
 
 
