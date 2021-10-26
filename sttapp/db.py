@@ -1,4 +1,5 @@
 from peewee import *
+from flask_login import UserMixin
 
 database = SqliteDatabase("./instance/db.db")
 
@@ -34,3 +35,10 @@ class Call(Model):
 
     class Meta:
         database = database
+
+class User(Model, UserMixin):
+    username = CharField()
+    password = CharField()
+
+    class Meta:
+        database = database  

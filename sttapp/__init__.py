@@ -13,6 +13,7 @@ from flask import (
     url_for,
 )
 from flask_executor import Executor
+from flask_login import LoginManager, login_user, logout_user, login_required
 from peewee import *
 import operator
 import functools
@@ -20,7 +21,7 @@ from . import speech_api
 from . import inventory
 from . import db
 
-db.database.create_tables([db.Call, db.Inventory])
+db.database.create_tables([db.Call, db.Inventory, db.User])
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -28,6 +29,13 @@ app.config.from_pyfile("config.py")
 
 executor = Executor(app)
 
+login_manager = LoginManager()
+login_manager.login_view = 'login'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.User.select(db.User.id == user_id).get()
 
 @app.template_filter("parent")
 def parent(path):
@@ -53,6 +61,7 @@ def after_request(response):
 
 @app.route("/", defaults={"req_path": ""})
 @app.route("/<path:req_path>")
+@login_required
 def explore(req_path):
     # Joining the base and the requested path
     abs_path = Path(app.config["DOWNLOAD_FOLDER"]).joinpath(req_path)
@@ -97,6 +106,7 @@ def explore(req_path):
 
 
 @app.route("/search")
+@login_required
 def search():
     if request.args:
         print(request.args)
@@ -163,6 +173,7 @@ def search():
 
 
 @app.route("/run-inventory")
+@login_required
 def run_inventory():
     query = db.Inventory.select().where(db.Inventory.end_date == None)
     if query.exists():
@@ -183,6 +194,7 @@ def run_inventory():
 
 
 @app.route("/inventory-status")
+@login_required
 def inventory_status():
     query = db.Inventory.select().order_by(db.Inventory.start_date.desc()).limit(1)
     if query.exists():
@@ -192,3 +204,20 @@ def inventory_status():
         last_inventory = None
     calls = db.Call.select()
     return render_template("inventory_status.j2", last_inventory=last_inventory)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        password = request.form.get('password')
+        user = db.User.select().get()
+        if user.password == password:
+            login_user(user)
+            return redirect(url_for("explore"))
+    return render_template("login.j2")
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
