@@ -1,0 +1,23 @@
+{% extends "base.j2" %}
+{% block title %}<h2>Inventory Status</h2>{% endblock %}
+
+{% block content %}
+
+<table>
+	<tr>
+		<th>Start</th>
+		<th>End</th>
+		<th>Calls Added</th>
+		<th>Calls Skipped</th>
+		<th>Calls {% if not last_inventory.end_date %}Processing{% else %}Processed{% endif %}</th>
+	</tr>
+	<tr>
+		<td>{{ last_inventory.start_date }}</td>
+		<td>{% if not last_inventory.end_date %}Running...{% else %}{{ last_inventory.end_date }}{% endif %}</td>
+		<td>{{ last_inventory.finished_paths }}</td>
+		<td>{{ last_inventory.skipped_paths }}</td>
+		<td>{{ last_inventory.total_paths }}</td>
+	<tr>
+</table>
+
+{% endblock %}
