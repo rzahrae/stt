@@ -34,56 +34,64 @@ def run_inventory():
 
     for abs_path in abs_paths:
         rel_path = abs_path.relative_to(basepath)
-        # Check if our path has already been inventoried
-        print("checking " + str(rel_path))
+        filename = rel_path.name
 
-        query = db.Call.select().where(db.Call.path == str(rel_path))
+        str_date = re.search(
+            "^.*-([0-9].*)-(.*)-.*([0-9]{8})-([0-9]{6})-.*$", filename
+        )
 
-        if not query.exists():
-            filename = rel_path.name
+        date_time = datetime.strptime(
+            str_date.group(3) + str_date.group(4), "%Y%m%d%H%M%S"
+        )
 
-            if re.search("^external.*$", filename):
-                incoming = True
+        # Check to see we are past the cutoff date
+        if date_time > current_app.config["CUTOFF_DATE"]: 
+
+            # Check if our path has already been inventoried
+            print("checking " + str(rel_path))
+
+            query = db.Call.select().where(db.Call.path == str(rel_path))
+
+            if not query.exists():
+
+                if re.search("^external.*$", filename):
+                    incoming = True
+                else:
+                    incoming = False
+
+                receiving = str_date.group(1)
+
+                initiating = str_date.group(2)
+
+                # Path has not been inventoried, call API
+                text = speech_api.get_stt(str(abs_path))
+                duration = librosa.get_duration(filename=abs_path)
+                db.Call(
+                    path=rel_path,
+                    text=text,
+                    duration=duration,
+                    date_time=date_time,
+                    receiving=receiving,
+                    initiating=initiating,
+                    incoming=incoming,
+                    inventory=inventory,
+                ).save()
+                query = db.Inventory.update(
+                    finished_paths=inventory.finished_paths + 1
+                ).where(db.Inventory.id == inventory.id)
             else:
-                incoming = False
+                query = db.Inventory.update(
+                    skipped_paths=inventory.skipped_paths + 1
+                ).where(db.Inventory.id == inventory.id)
 
-            str_date = re.search(
-                "^.*-([0-9].*)-(.*)-.*([0-9]{8})-([0-9]{6})-.*$", filename
-            )
-
-            date_time = datetime.strptime(
-                str_date.group(3) + str_date.group(4), "%Y%m%d%H%M%S"
-            )
-
-            receiving = str_date.group(1)
-
-            initiating = str_date.group(2)
-
-            # Path has not been inventoried, call API
-            text = speech_api.get_stt(str(abs_path))
-            duration = librosa.get_duration(filename=abs_path)
-            db.Call(
-                path=rel_path,
-                text=text,
-                duration=duration,
-                date_time=date_time,
-                receiving=receiving,
-                initiating=initiating,
-                incoming=incoming,
-                inventory=inventory,
-            ).save()
-            query = db.Inventory.update(
-                finished_paths=inventory.finished_paths + 1
-            ).where(db.Inventory.id == inventory.id)
+            query.execute()
+            inventory = inventory.refresh()
         else:
-            query = db.Inventory.update(
-                skipped_paths=inventory.skipped_paths + 1
-            ).where(db.Inventory.id == inventory.id)
+            print("skipping due to date " + str(rel_path))
 
-        query.execute()
-        inventory = inventory.refresh()
-    inventory.end_date = datetime.now()
-    inventory.save()
+
+        inventory.end_date = datetime.now()
+        inventory.save()
 
 
 def dispatch_inventory():
