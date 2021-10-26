@@ -4,13 +4,17 @@ import time
 import azure.cognitiveservices.speech as speechsdk
 from flask import current_app
 
+
 def get_stt(filename):
     speech_config = speechsdk.SpeechConfig(
         subscription=current_app.config["AZURE_SPEECH_KEY"],
         region=current_app.config["AZURE_SPEECH_REGION"],
     )
 
-    speech_config.set_property(speechsdk.PropertyId.Speech_LogFilename, str(Path(current_app.instance_path).joinpath("log.txt")))
+    speech_config.set_property(
+        speechsdk.PropertyId.Speech_LogFilename,
+        str(Path(current_app.instance_path).joinpath("log.txt")),
+    )
     transcript = ""
 
     def stop_cb(evt):
