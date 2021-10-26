@@ -87,8 +87,8 @@ def run_inventory():
         else:
             print("skipping due to date " + str(rel_path))
 
-        inventory.end_date = datetime.now()
-        inventory.save()
+    inventory.end_date = datetime.now()
+    inventory.save()
 
 
 def dispatch_inventory():
