@@ -1,5 +1,4 @@
 $(function() {
-
     $('input[name="date_filter"]').daterangepicker({
         timePicker: true,
         autoUpdateInput: false,
