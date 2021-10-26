@@ -85,6 +85,7 @@ def run_inventory():
     inventory.end_date = datetime.now()
     inventory.save()
 
+
 def dispatch_inventory():
     inventory_thread = threading.Thread(target=run_inventory())
     inventory_thread.start()

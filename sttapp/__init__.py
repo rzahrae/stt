@@ -24,7 +24,7 @@ db.database.create_tables([db.Call, db.Inventory])
 
 app = Flask(__name__)
 
-app.config['EXECUTOR_PROPAGATE_EXCEPTIONS'] = True
+app.config["EXECUTOR_PROPAGATE_EXCEPTIONS"] = True
 executor = Executor(app)
 
 app.config["SECRET_KEY"] = "secret!"
@@ -132,7 +132,7 @@ def search():
                 clauses.append(db.Call.incoming == True)
 
             if key == "outgoing" and not request.args.get("incoming"):
-                clauses.append(db.Call.incoming == False)        
+                clauses.append(db.Call.incoming == False)
 
             if key == "max_duration" and request.args[key].strip() != "":
                 clauses.append(
@@ -179,7 +179,7 @@ def run_inventory():
         )
     else:
         flash("Running inventory!")
-        #inventory.dispatch_inventory()
+        # inventory.dispatch_inventory()
         executor.submit(inventory.run_inventory)
     return redirect(url_for("inventory_status"))
 
@@ -188,10 +188,9 @@ def run_inventory():
 def inventory_status():
     query = db.Inventory.select().order_by(db.Inventory.start_date.desc()).limit(1)
     if query.exists():
-        last_inventory=query.get()
+        last_inventory = query.get()
     else:
         flash("No inventory found!")
         last_inventory = None
     calls = db.Call.select()
     return render_template("inventory_status.j2", last_inventory=last_inventory)
-
