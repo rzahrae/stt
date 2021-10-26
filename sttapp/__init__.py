@@ -85,7 +85,7 @@ def explore(req_path):
         rel_path = abs_path.relative_to(app.config["DOWNLOAD_FOLDER"])
         # Compose a dict where relative path is the key
         metadata = {}
-        for file in files:
+        for file in files.sort():
             path = rel_path.joinpath(file)
             file_metadata = db.Call.select().where(db.Call.path == path)
             if file_metadata:
