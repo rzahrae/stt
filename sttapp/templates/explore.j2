@@ -23,7 +23,7 @@
               <td>{{ metadata[request.path[1:] + "/" + file ]["date_time"]}}</td>
               <td>{{ metadata[request.path[1:] + "/" + file ]["initiating"] }}</td>
               <td>{{ metadata[request.path[1:] + "/" + file ]["receiving"] }}</td>
-              <td>{{ metadata[request.path[1:] + "/" + file ]["incoming"] }}</td>
+              <td>{% if metadata[request.path[1:] + "/" + file ]["incoming"] %}Incoming{% else %}Outgoing{%endif%}</td>
               <td>{{ metadata[request.path[1:] + "/" + file ]["duration"] | time_fmt }}</td>
               <td>{{ metadata[request.path[1:] + "/" + file ]["text"] }}</td>
           </tr>

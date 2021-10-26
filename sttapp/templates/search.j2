@@ -64,7 +64,7 @@
             <td>{{ result.date_time }}</td>
             <td>{{ result.initiating }}</td>
             <td>{{ result.receiving }}</td>
-            <td>{{ result.incoming }}</td>
+            <td>{% if result.incoming %}Incoming{% else %}Outgoing{%endif%}</td>
             <td>{{ result.duration | time_fmt }}</td>
             <td>{{ result.text }}</td>
             <td>

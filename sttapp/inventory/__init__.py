@@ -86,6 +86,11 @@ def run_inventory():
             inventory = inventory.refresh()
         else:
             print("skipping due to date " + str(rel_path))
+            query = db.Inventory.update(
+                skipped_paths=inventory.skipped_paths + 1
+            ).where(db.Inventory.id == inventory.id)
+            query.execute()
+            inventory = inventory.refresh()
 
     inventory.end_date = datetime.now()
     inventory.save()
