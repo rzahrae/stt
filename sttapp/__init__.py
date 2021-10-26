@@ -30,12 +30,14 @@ app.config.from_pyfile("config.py")
 executor = Executor(app)
 
 login_manager = LoginManager()
-login_manager.login_view = 'login'
+login_manager.login_view = "login"
 login_manager.init_app(app)
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return db.User.select(db.User.id == user_id).get()
+
 
 @app.template_filter("parent")
 def parent(path):
@@ -209,15 +211,16 @@ def inventory_status():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        password = request.form.get('password')
+        password = request.form.get("password")
         user = db.User.select().get()
         if user.password == password:
             login_user(user)
             return redirect(url_for("explore"))
     return render_template("login.j2")
 
-@app.route('/logout')
+
+@app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for("login"))

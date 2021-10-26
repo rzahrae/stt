@@ -1,11 +1,10 @@
-<html>
-<head>
-</head>
-<body>
+{% extends "base.j2" %}
+{% block title %}<h2>Login</h2>{% endblock %}
+
+{% block content %}
 	<form method="POST">
 		<input type="text" name="password">
 		<label for="password">Password</label>
-		<br>
+		<br><br>
 		<input type="submit">
-</body>
-<html>
+{% endblock %}

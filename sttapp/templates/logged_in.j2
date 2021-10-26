@@ -1,0 +1,21 @@
+{% extends "base.j2" %}
+
+{% block logged_in %}
+  <div>
+      <a href="{{ url_for('explore') }}">Home</a>
+      -
+      <a href="{{ url_for('search') }}">Search</a>
+      -
+      <a href="{{ url_for('inventory_status') }}">Inventory Status</a>
+      -
+      <a href="{{ url_for('run_inventory') }}">Run Inventory</a>
+      -
+      <a href="{{url_for('logout') }}">Logout</a>
+  </div>
+  <div>
+      <h1>HD Recordings Speech-to-Text</h1>
+  </div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}

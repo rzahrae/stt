@@ -36,16 +36,14 @@ def run_inventory():
         rel_path = abs_path.relative_to(basepath)
         filename = rel_path.name
 
-        str_date = re.search(
-            "^.*-([0-9].*)-(.*)-.*([0-9]{8})-([0-9]{6})-.*$", filename
-        )
+        str_date = re.search("^.*-([0-9].*)-(.*)-.*([0-9]{8})-([0-9]{6})-.*$", filename)
 
         date_time = datetime.strptime(
             str_date.group(3) + str_date.group(4), "%Y%m%d%H%M%S"
         )
 
         # Check to see we are past the cutoff date
-        if date_time > current_app.config["CUTOFF_DATE"]: 
+        if date_time > current_app.config["CUTOFF_DATE"]:
 
             # Check if our path has already been inventoried
             print("checking " + str(rel_path))
@@ -88,7 +86,6 @@ def run_inventory():
             inventory = inventory.refresh()
         else:
             print("skipping due to date " + str(rel_path))
-
 
         inventory.end_date = datetime.now()
         inventory.save()

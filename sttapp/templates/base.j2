@@ -7,21 +7,9 @@
 </head>
 
 <body>
-    {% block logged in%}
-    <div>
-        <a href="{{ url_for('explore') }}">Home</a>
-        -
-        <a href="{{ url_for('search') }}">Search</a>
-        -
-        <a href="{{ url_for('inventory_status') }}">Inventory Status</a>
-        -
-        <a href="{{ url_for('run_inventory') }}">Run Inventory</a>
-    </div>
-    <div>
-        <h1>HD Recordings Speech-to-Text</h1>
-    </div>
+    {% block logged_in %}
+    {% endblock %}
 
-    {{ endblock }}
     <div id="content">{% block title %}{% endblock %}</div>
     <div id="content">{% block content %}{% endblock %}</div>
     <div id="flashes">
