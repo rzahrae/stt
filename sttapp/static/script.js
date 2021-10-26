@@ -4,6 +4,7 @@ $(function() {
         autoUpdateInput: false,
         locale: {
             cancelLabel: 'Clear',
+            format: 'MM/DD/YYYY hh:mm A'
         }
     });
 
