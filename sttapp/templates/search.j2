@@ -16,7 +16,7 @@
   <label for="text">Text</label>
   <br>
   <input type="text" name="date_filter" size=38 {% if args %}value="{{ args['date_filter'] }}"{% endif%}>
-  <label for="date_filter">Date Filter</label>
+  <label for="date_filter">Timeframe</label>
   <br>
   <input type="number" min="0" name="initiating" class="teleNum" {% if args %}value="{{ args['initiating'] }}"{% endif%}>
   <label for="initiating">Initiating #</label>
@@ -46,9 +46,7 @@
   <input type="radio" name="logic" value="or"{% if args and args['logic'] == 'or' %}checked="checked"{% endif %}>
   <label for="or">OR</label>
   <br>
-  <input type=submit>
-  <br>
-  <a href="{{ url_for('search') }}">(Or, Reset Search)</a>
+  <input type="submit">
 {% if results %}
   <h3>{{ results | length }} Results:</h3>
   <table width="100%">
