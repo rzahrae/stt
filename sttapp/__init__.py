@@ -163,7 +163,7 @@ def search():
             else:
                 filter = functools.reduce(operator.or_, clauses)
 
-            results = db.Call.select().where(filter)
+            results = db.Call.select().where(filter).order_by(db.Call.date_time.desc())
 
             if not results.exists():
                 flash("Nothing found!")
