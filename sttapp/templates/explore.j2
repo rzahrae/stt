@@ -7,7 +7,6 @@
       <a href="{{ request.path|parent }}">Go Back to Month View</a>
       <br>
       {% endif %}
-    <br>
     {% for file in files %}
       {% if metadata[request.path[1:] + "/" + file ] %}
       <table width="100%">
@@ -42,7 +41,7 @@
         Your browser does not support the audio element.
     </audio>
       {% if not loop.last %}
-      <br><br><br>
+      <br>
       {% endif %}
     {% endfor %}
   {% else %}
