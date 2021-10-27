@@ -6,6 +6,7 @@
       {% if leaf %}
       <a href="{{ request.path|parent }}">Go Back to Month View</a>
       <br>
+      <br>
       {% endif %}
     {% for file in files %}
       {% if metadata[request.path[1:] + "/" + file ] %}
