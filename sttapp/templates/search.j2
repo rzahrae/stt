@@ -51,7 +51,8 @@
   <h3>{{ results | length }} Results:</h3>
   <table width="100%">
       <tr>
-          <th>Time & Date</th>
+          <th>Date</th>
+          <th>Time</th>
           <th>Init. #</th>
           <th>Recv. #</th>
           <th>Incoming?</th>
@@ -61,7 +62,8 @@
       </tr>
     {% for result in results %}
         <tr>
-            <td>{{ result.date_time }}</td>
+            <td>{{ result.date_time.date() }}</td>
+            <td>{{ result.date_time.time() }}</td>
             <td>{{ result.initiating }}</td>
             <td>{{ result.receiving }}</td>
             <td>{% if result.incoming %}Incoming{% else %}Outgoing{%endif%}</td>
