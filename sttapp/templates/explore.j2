@@ -31,7 +31,6 @@
           </tr>
       </table>
       {% else %}
-      <br>
       <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
           {{ (request.path + '/' if request.path != '/' else '') + file }}
       </a>
@@ -44,6 +43,8 @@
         Your browser does not support the audio element.
     </audio>
       {% if not loop.last %}
+      <br>
+      <br>
       <br>
       {% endif %}
     {% endfor %}
