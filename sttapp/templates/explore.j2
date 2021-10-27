@@ -11,7 +11,8 @@
       {% if metadata[request.path[1:] + "/" + file ] %}
       <table width="100%">
           <tr>
-              <th>Time & Date</th>
+              <th>Date</th>
+              <th>Time</th>
               <th>Init. #</th>
               <th>Recv. #</th>
               <th>Incoming?</th>
@@ -19,7 +20,8 @@
               <th>Text</th>
           </tr>
           <tr>
-              <td>{{ metadata[request.path[1:] + "/" + file ]["date_time"]}}</td>
+              <td>{{ metadata[request.path[1:] + "/" + file ]["date_time"].date() }}</td>
+              <td>{{ metadata[request.path[1:] + "/" + file ]["date_time"].time() }}</td>
               <td>{{ metadata[request.path[1:] + "/" + file ]["initiating"] }}</td>
               <td>{{ metadata[request.path[1:] + "/" + file ]["receiving"] }}</td>
               <td>{% if metadata[request.path[1:] + "/" + file ]["incoming"] %}Incoming{% else %}Outgoing{%endif%}</td>
