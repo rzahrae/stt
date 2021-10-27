@@ -15,7 +15,7 @@
   <input type="text" name="text" size=38 {%if args %}value="{{ args['text'] }}"{% endif %}>
   <label for="text">Text</label>
   <br>
-  <input type="text" name="date_filter" size=38 {% if args %}value="{{ args['date_filter'] }}"{% endif%}>
+  <input type="text" name="date_filter" size=38 autocomplete="off" {% if args %}value="{{ args['date_filter'] }}"{% endif%}>
   <label for="date_filter">Timeframe</label>
   <br>
   <input type="number" min="0" name="initiating" class="teleNum" {% if args %}value="{{ args['initiating'] }}"{% endif%}>
