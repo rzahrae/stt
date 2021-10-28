@@ -178,7 +178,7 @@ def search():
             return render_template("search.j2", results=results, total_duration=total_duration, average_duration=average_duration, args=request.args)
         except Exception as e:
             flash(str(e))
-            return redirect(url_for("search"))
+            return render_template("search.j2", args=request.args)
     else:
         return render_template("search.j2", args=request.args)
 
