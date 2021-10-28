@@ -1,9 +1,14 @@
 from peewee import *
-from playhouse.sqlite_ext import SqliteExtDatabase
 from flask_login import UserMixin
 import re
 
-database = SqliteExtDatabase("./instance/db.db", regexp_function=True)
+database = SqliteDatabase("./instance/db.db")
+
+
+@database.func()
+def regexp(expr, s):
+    result = re.search(expr, s, flags=re.IGNORECASE)
+    return result is not None
 
 
 class BaseModel(Model):
