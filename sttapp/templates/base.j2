@@ -10,7 +10,7 @@
     {% block logged_in %}
     {% endblock %}
 
-    <div id="content">{% block title %}{% endblock %}</div>
+    <div id="title">{% block title %}{% endblock %}</div>
     <div id="content">{% block content %}{% endblock %}</div>
     <div id="flashes">
         {% with messages = get_flashed_messages() %}
@@ -23,6 +23,7 @@
         {% endif %}
         {% endwith %}
     </div>
+    <div id="debug">{% block debug %}{% endblock %}</div>
 </body>
 
 </html>
