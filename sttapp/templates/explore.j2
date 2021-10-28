@@ -4,7 +4,11 @@
 {% block content %}
   {% if leaf %}
       {% if leaf %}
-      <a href="{{ request.path|parent }}">Go Back to Month View</a>
+      <a href="{{ request.path|parent }}">
+        <button class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded shadow">
+          &#8592; Go Back to Month View
+        </button>
+      </a>
       <br>
       <br>
       {% endif %}
