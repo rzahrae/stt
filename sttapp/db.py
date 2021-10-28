@@ -1,8 +1,13 @@
 from peewee import *
 from flask_login import UserMixin
+import re
 
 database = SqliteDatabase("./instance/db.db")
 
+@database.func()
+def regexp(expr, s):
+    result = re.search(expr, s, flags=re.IGNORECASE)
+    return result is not None
 
 class BaseModel(Model):
     class Meta:

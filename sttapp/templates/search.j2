@@ -13,7 +13,7 @@
 {% block content %}
   <form>
   <input type="text" name="text" size=38 {%if args %}value="{{ args['text'] }}"{% endif %}>
-  <label for="text">Text</label>
+  <label for="text">Text (supports <a href="https://pythex.org">regular expressions</a>!) </label>
   <br>
   <input type="text" name="date_filter" size=38 autocomplete="off" {% if args %}value="{{ args['date_filter'] }}"{% endif%}>
   <label for="date_filter">Timeframe</label>
@@ -87,6 +87,6 @@
     {% endfor %}
   </table>
   <br>
-  {{ results }}
 {% endif %}
+  {{ results }}
 {% endblock %}

@@ -156,7 +156,7 @@ def search():
                 )
 
             if key == "text":
-                clauses.append(db.Call.text.contains(request.args.get(key)))
+                clauses.append(db.Call.text.regexp(request.args.get(key)))
         try:
             if request.args["logic"] == "and":
                 filter = functools.reduce(operator.and_, clauses)
