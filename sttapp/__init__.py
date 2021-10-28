@@ -165,9 +165,19 @@ def search():
 
             results = db.Call.select().where(filter).order_by(db.Call.date_time.asc())
 
+            total_duration = 0
+
             if not results.exists():
                 flash("Nothing found!")
-            return render_template("search.j2", results=results, args=request.args)
+                average_duration = 0
+            else:
+                for result in results:
+                    total_duration = total_duration + result.duration
+                average_duration = total_duration / results.count()
+                print(fn.MAX(results).scalar())
+                raise Exception
+
+            return render_template("search.j2", results=results, total_duration=total_duration, average_duration=average_duration, args=request.args)
         except Exception as e:
             flash(str(e))
             return redirect(url_for("search"))

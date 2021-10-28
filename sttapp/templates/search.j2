@@ -49,6 +49,13 @@
   <input type="submit">
 {% if results %}
   <h3>{{ results | length }} Results:</h3>
+
+  Total duration: {{ total_duration | time_fmt }}
+  <br>
+  Average duration: {{ average_duration | time_fmt }}
+  <br>
+  <br>
+
   <table width="100%">
       <tr>
           <th>Date</th>
