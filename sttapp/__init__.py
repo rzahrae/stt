@@ -174,8 +174,6 @@ def search():
                 for result in results:
                     total_duration = total_duration + result.duration
                 average_duration = total_duration / results.count()
-                print(fn.MAX(results).scalar())
-                raise Exception
 
             return render_template("search.j2", results=results, total_duration=total_duration, average_duration=average_duration, args=request.args)
         except Exception as e:
