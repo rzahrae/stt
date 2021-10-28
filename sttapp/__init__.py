@@ -179,7 +179,13 @@ def search():
                     total_duration = total_duration + result.duration
                 average_duration = total_duration / results.count()
 
-            return render_template("search.j2", results=results, total_duration=total_duration, average_duration=average_duration, args=request.args)
+            return render_template(
+                "search.j2",
+                results=results,
+                total_duration=total_duration,
+                average_duration=average_duration,
+                args=request.args,
+            )
         except Exception as e:
             flash(str(e))
             return render_template("search.j2", args=request.args)

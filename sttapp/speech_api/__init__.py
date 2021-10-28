@@ -12,7 +12,7 @@ def get_stt(filename):
     )
 
     speech_config.set_profanity(speechsdk.ProfanityOption.Raw)
-    
+
     speech_config.set_property(
         speechsdk.PropertyId.Speech_LogFilename,
         str(Path(current_app.instance_path).joinpath("log.txt")),
