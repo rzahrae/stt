@@ -13,7 +13,9 @@
 {% block content %}
   <form>
   <input type="text" name="text" size=38 {%if args %}value="{{ args['text'] }}"{% endif %}>
-  <label for="text">Text (supports <a href="https://pythex.org">regular expressions</a>!) </label>
+  <label for="text">Text</label>
+  <input type="checkbox" name="regex" {% if args and args['regex'] == 'on' %}checked="checked"{% endif %}>
+  <label for="regex">Use <a href="https://pythex.org">regular expression</a>!</label>
   <br>
   <input type="text" name="date_filter" size=38 autocomplete="off" {% if args %}value="{{ args['date_filter'] }}"{% endif%}>
   <label for="date_filter">Timeframe</label>
