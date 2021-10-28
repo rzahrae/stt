@@ -132,6 +132,12 @@ def search():
         print(request.args)
         clauses = []
         for key in request.args:
+            if key == "text":
+                if request.args.get("regex") == "on":
+                    clauses.append(db.Call.text.regexp(request.args.get(key)))
+                else:
+                    clauses.append(db.Call.text.contains(request.args.get(key)))
+                    
             if key == "date_filter" and request.args[key].strip() != "":
                 regex = re.search(
                     "^(.*) - (.*)$", request.args.get("date_filter").strip()
@@ -171,12 +177,6 @@ def search():
                 clauses.append(
                     db.Call.duration >= float(request.args.get(key).strip()) * 60
                 )
-
-            if key == "text":
-                if request.args.get("regex"):
-                    clauses.append(db.Call.text.regexp(request.args.get(key)))
-                else:
-                    clauses.append(db.Call.text.contains(request.args.get(key)))
 
         try:
             if request.args["logic"] == "and":
