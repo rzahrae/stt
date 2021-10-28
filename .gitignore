@@ -131,3 +131,4 @@ instance/
 log.txt
 *.code-workspace
 sttapp/templates/commands.txt
+sttapp/templates/testing.html
