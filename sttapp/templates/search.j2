@@ -51,9 +51,9 @@
 {% if results %}
   <h3>{{ results | length }} Results:</h3>
 
-  Total duration: {{ total_duration | time_fmt }}
+  Total duration: {{ total_duration | seconds_fmt }}
   <br>
-  Average duration: {{ average_duration | time_fmt }}
+  Average duration: {{ average_duration | seconds_fmt }}
   <br>
   <br>
 
@@ -75,7 +75,7 @@
             <td>{{ result.initiating }}</td>
             <td>{{ result.receiving }}</td>
             <td>{% if result.incoming %}Incoming{% else %}Outgoing{%endif%}</td>
-            <td>{{ result.duration | time_fmt }}</td>
+            <td>{{ result.duration | seconds_fmt }}</td>
             <td>{{ result.text }}</td>
             <td>
               <audio controls>

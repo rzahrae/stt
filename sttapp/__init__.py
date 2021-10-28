@@ -45,7 +45,7 @@ def parent(path):
     return path.parent
 
 
-@app.template_filter("time_fmt")
+@app.template_filter("seconds_fmt")
 def time_fmt(seconds):
     return str(datetime.timedelta(seconds=int(seconds)))
 
