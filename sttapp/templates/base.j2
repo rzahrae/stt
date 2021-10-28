@@ -15,8 +15,14 @@
     {% block logged_in %}
     {% endblock %}
 
-    <div id="content" class="text-white">{% block title %}{% endblock %}</div>
-    <div id="content" class="text-white">{% block content %}{% endblock %}</div>
+    <div class="container px-4 py-5 mx-auto text-left text-white">
+        <div class="text-2xl font-semibold leading-10 text-left">
+            {% block title %}{% endblock %}
+        </div>
+        <div id="content" class="text-white ml-8">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
 </body>
 
 </html>
