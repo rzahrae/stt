@@ -1,10 +1,26 @@
 {% extends "base.j2" %}
-{% block title %}<h2>Login</h2>{% endblock %}
 
 {% block content %}
-	<form method="POST">
-		<input type="password" name="password">
-		<label for="password">Password</label>
-		<br><br>
-		<input type="submit">
+    <section class="flex h-screen bg-gray-800">
+        <div class="max-w-xs w-full m-auto bg-indigo-100 rounded-xl p-5">
+            <!-- Header -->
+            <header>
+                <img class="w-20 mx-auto mb-5" src="https://itsupportguys.com/wp-content/uploads/2019/12/Logo.png" />
+            </header>
+
+            <!-- Form -->
+            <form method="POST">
+                <div>
+                    <label class="block mb-2 text-indigo-500" for="password">Password</label>
+                    <input
+                        class="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:border-blue-700 focus:ring rounded"
+                        type="password" name="password">
+                </div>
+                <div>
+                    <input class="w-full bg-indigo-700 hover:bg-pink-700 text-white font-bold py-2 px-4 mb-6 rounded"
+                        type="submit">
+                </div>
+            </form>
+        </div>
+    </section>
 {% endblock %}
