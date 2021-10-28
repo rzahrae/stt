@@ -49,6 +49,7 @@ def parent(path):
 def seconds_fmt(seconds):
     return str(datetime.timedelta(seconds=int(seconds)))
 
+
 @app.template_filter("regex_capture")
 def regex_capture(text, regex):
     result = re.search(regex, text, flags=re.IGNORECASE)
@@ -65,9 +66,9 @@ def regex_capture(text, regex):
     else:
         print("we do not have capture groups!")
         return text
-        
 
     return result
+
 
 @app.before_request
 def before_request():

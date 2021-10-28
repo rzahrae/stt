@@ -6,12 +6,6 @@ import re
 database = SqliteExtDatabase("./instance/db.db", regexp_function=True)
 
 
-# @database.func()
-# def regexp(expr, s):
-#     result = re.search(expr, s, flags=re.IGNORECASE)
-#     return result is not None
-
-
 class BaseModel(Model):
     class Meta:
         database = database
