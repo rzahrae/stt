@@ -16,17 +16,6 @@
 
     <div id="content">{% block title %}{% endblock %}</div>
     <div id="content">{% block content %}{% endblock %}</div>
-    <div id="flashes">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul class=flashes>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-    </div>
 </body>
 
 </html>
