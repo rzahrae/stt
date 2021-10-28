@@ -12,7 +12,7 @@
 {% block title %}<h2>Search</h2>{% endblock %}
 {% block content %}
   <form>
-  <input type="text" name="text" size=38 {%if args %}value="{{ args['text'] }}"{% endif %}>
+  <input type="text" name="text" size=38 autocomplete="off" {%if args %}value="{{ args['text'] }}"{% endif %}>
   <label for="text">Text</label>
   <input type="checkbox" name="regex" {% if args and args['regex'] == 'on' %}checked="checked"{% endif %}>
   <label for="regex">Use <a href="https://pythex.org" target="_blank">regular expressions</a>!</label>
@@ -20,13 +20,13 @@
   <input type="text" name="date_filter" size=38 autocomplete="off" {% if args %}value="{{ args['date_filter'] }}"{% endif%}>
   <label for="date_filter">Timeframe</label>
   <br>
-  <input type="number" min="0" name="initiating" class="teleNum" {% if args %}value="{{ args['initiating'] }}"{% endif%}>
+  <input type="number" min="0" name="initiating" class="teleNum" autocomplete="off" {% if args %}value="{{ args['initiating'] }}"{% endif%}>
   <label for="initiating">Initiating #</label>
   <br>
-  <input type="number" min="0" name="receiving" class="teleNum" {% if args %}value="{{ args['receiving'] }}"{% endif%}>
+  <input type="number" min="0" name="receiving" class="teleNum" autocomplete="off" {% if args %}value="{{ args['receiving'] }}"{% endif%}>
   <label for="receiving">Receiving #</label>
   <br>
-  <input type="number" min="0" name="bi-directional" class="teleNum" {% if args %}value="{{ args['bi-directional'] }}"{% endif%}>
+  <input type="number" min="0" name="bi-directional" class="teleNum" autocomplete="off" {% if args %}value="{{ args['bi-directional'] }}"{% endif%}>
   <label for="receiving">Initiating or Receiving #</label>
   <br>
   <input type="checkbox" name="incoming" {% if args and args['incoming'] == 'on' %}checked="checked"{% endif %}>
