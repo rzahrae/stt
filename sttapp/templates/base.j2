@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="/static/tailwind.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="icon" type="image/png" href="https://itsupportguys.com/wp-content/uploads/2019/12/favicon.png">
     {% block head %}{% endblock %}
 </head>
 
-<body>
+<body class="min-h-screen bg-gray-800">
     {% block logged_in %}
     {% endblock %}
 
