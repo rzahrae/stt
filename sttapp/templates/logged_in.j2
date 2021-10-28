@@ -18,20 +18,16 @@
                     :class="{'flex fixed': showMenu, 'hidden': !showMenu }">
                     <div
                         class="flex-col w-full h-auto overflow-hidden bg-white rounded-lg md:bg-transparent md:overflow-visible md:rounded-none md:relative md:flex md:flex-row">
-                        <a href="#_"
-                            class="inline-flex items-center block w-auto h-16 px-6 text-xl font-black leading-none text-white md:hidden">tails<span
-                                class="text-indigo-600">.</span></a>
-                        <div
-                            class="flex flex-col items-start justify-center w-full space-x-6 text-center lg:space-x-8 md:w-2/3 md:mt-0 md:flex-row md:items-center">
+                        <div class="flex flex-col items-start justify-center w-full space-x-6 text-center lg:space-x-8 md:w-2/3 md:mt-0 md:flex-row md:items-center">
                             <a href="{{ url_for('explore') }}"
-                                class="inline-block w-full py-2 mx-0 ml-6 font-medium text-left text-indigo-600 md:ml-0 md:w-auto md:px-0 md:mx-2 lg:mx-3 md:text-center">Explore</a>
+                                class="inline-block w-full py-2 mx-0 ml-6 font-medium text-left text-white hover:text-blue-400 md:ml-0 md:w-auto md:px-0 md:mx-2 lg:mx-3 md:text-center">Explore</a>
                             <a href="{{ url_for('search') }}"
-                                class="inline-block w-full py-2 mx-0 font-medium text-left text-white md:w-auto md:px-0 md:mx-2 hover:text-indigo-600 lg:mx-3 md:text-center">Search</a>
+                                class="inline-block w-full py-2 mx-0 font-medium text-left text-white md:w-auto md:px-0 md:mx-2 hover:text-blue-400 lg:mx-3 md:text-center">Search</a>
                             <a href="{{ url_for('inventory_status') }}"
-                                class="inline-block w-full py-2 mx-0 font-medium text-left text-white md:w-auto md:px-0 md:mx-2 hover:text-indigo-600 lg:mx-3 md:text-center">Inventory
+                                class="inline-block w-full py-2 mx-0 font-medium text-left text-white md:w-auto md:px-0 md:mx-2 hover:text-blue-400 lg:mx-3 md:text-center">Inventory
                                 Status</a>
                             <a href="{{ url_for('run_inventory') }}"
-                                class="inline-block w-full py-2 mx-0 font-medium text-left text-white md:w-auto md:px-0 md:mx-2 hover:text-indigo-600 lg:mx-3 md:text-center">Run
+                                class="inline-block w-full py-2 mx-0 font-medium text-left text-white md:w-auto md:px-0 md:mx-2 hover:text-blue-400 lg:mx-3 md:text-center">Run
                                 Inventory</a>
 
                         </div>
