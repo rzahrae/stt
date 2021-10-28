@@ -38,7 +38,7 @@
       Metadata has not yet been gathered.
       {% endif %}
     <br>
-    <audio controls>
+    <audio controls  preload="none">
         <source src="{{ (request.path + '/' if request.path != '/' else '') + file }}" type="audio/wav">
         Your browser does not support the audio element.
     </audio>
