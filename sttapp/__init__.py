@@ -54,17 +54,14 @@ def seconds_fmt(seconds):
 def regex_capture(text, regex):
     result = re.search(regex, text, flags=re.IGNORECASE)
     if len(result.groups()) > 0:
-        print(len(result.groups()))
-        print("we have capture groups!")
         concat = ""
-        for x in result.groups():
+        for group in result.groups():
             if concat == "":
-                concat = x
+                concat = group
             else:
-                concat = concat + " ... " + x
+                concat = concat + " ... " + group
         return concat
     else:
-        print("we do not have capture groups!")
         return text
 
     return result
