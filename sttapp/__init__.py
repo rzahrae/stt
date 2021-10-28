@@ -218,11 +218,7 @@ def run_inventory():
         print("already inventorying")
         current_inventory = query.get()
         flash(
-            "Inventory is already running!  %s/%s"
-            % (
-                current_inventory.skipped_paths + current_inventory.finished_paths,
-                current_inventory.total_paths,
-            )
+            "Inventory is already running!"
         )
     else:
         flash("Running inventory!")
