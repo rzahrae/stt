@@ -1,8 +1,9 @@
 from peewee import *
+from playhouse.sqliteq import SqliteQueueDatabase
 from flask_login import UserMixin
 import re
 
-database = SqliteDatabase("./instance/db.db")
+database = SqliteQueueDatabase("./instance/db.db")
 
 
 @database.func()
