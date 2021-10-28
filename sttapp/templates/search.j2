@@ -78,7 +78,7 @@
             <td>{{ result.receiving }}</td>
             <td>{% if result.incoming %}Incoming{% else %}Outgoing{%endif%}</td>
             <td>{{ result.duration | seconds_fmt }}</td>
-            <td>{{ result.text }}</td>
+            <td>{{ result.text | regex_capture(args['text']) }}</td>
             <td>
               <audio controls>
                   <source src="/{{ result.path }}" type="audio/wav">
