@@ -137,7 +137,7 @@ def search():
                     clauses.append(db.Call.text.regexp(request.args.get(key)))
                 else:
                     clauses.append(db.Call.text.contains(request.args.get(key)))
-                    
+
             if key == "date_filter" and request.args[key].strip() != "":
                 regex = re.search(
                     "^(.*) - (.*)$", request.args.get("date_filter").strip()
@@ -185,7 +185,7 @@ def search():
                 filter = functools.reduce(operator.or_, clauses)
 
             results = db.Call.select().where(filter).order_by(db.Call.date_time.asc())
-
+            print(results)
             total_duration = 0
 
             if not results.exists():
