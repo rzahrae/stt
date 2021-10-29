@@ -19,6 +19,11 @@ $(function() {
 });
 
 $(document).ready(function() {
-    let re = new RegExp($("#text_input").val(), 'gim')
+    try {
+            let re = new RegExp($("#text_input").val(), 'gim')
     $(".text_output").markRegExp(re);
+    } catch (error) {
+        console.error(error)
+    }
+
 });
