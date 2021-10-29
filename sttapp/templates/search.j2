@@ -12,34 +12,34 @@
 {% block title %}<h2>Search</h2>{% endblock %}
 {% block content %}
   <title>Search | HD Recordings - IT Support Guys</title>
-  <form class="text-black font-semibold">
-        <div class="bg-indigo-100 rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+  <form class="text-gray-200 font-semibold">
+        <div class="lg:w-2/3 bg-gray-600 rounded-xl shadow-lg p-4 px-4 md:p-8 mb-6">
 
             <div class="lg:col-span-2">
               <div class="grid gap-4 gap-y-2 text-sm grid-cols-1">
                 <div class="md:col-span-4">
                   <label for="text">Text</label>
-                  <input type="text" name="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" {%if args %}value="{{ args['text'] }}"{% endif %}>
+                  <input type="text" name="text" class="text-black h-10 border mt-1 rounded px-4 w-full bg-gray-50" {%if args %}value="{{ args['text'] }}"{% endif %}>
                 </div>
   
                 <div class="md:col-span-4">
                   <label for="date_filter">Timeframe</label>
-                  <input type="text" name="date_filter" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" autocomplete="off" {% if args %}value="{{ args['date_filter'] }}"{% endif%}>
+                  <input type="text" name="date_filter" class="text-black h-10 border mt-1 rounded px-4 w-full bg-gray-50" autocomplete="off" {% if args %}value="{{ args['date_filter'] }}"{% endif%}>
                 </div>
   
                 <div class="md:col-span-2">
                   <label for="initiating">Initiating #</label>
-                  <input type="number" min="0" name="initiating" class="teleNum h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['initiating'] }}"{% endif%}>
+                  <input type="number" min="0" name="initiating" class="teleNum text-black h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['initiating'] }}"{% endif%}>
                 </div>
   
                 <div class="md:col-span-2">
                   <label for="receiving">Receiving #</label>
-                  <input type="number" min="0" name="receiving" class="teleNum h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['receiving'] }}"{% endif%}>
+                  <input type="number" min="0" name="receiving" class="teleNum text-black h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['receiving'] }}"{% endif%}>
                 </div>
   
                 <div class="md:col-span-4">
                     <label for="receiving">Initiating or Receiving #</label>
-                    <input type="number" min="0" name="bi-directional" class="teleNum h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['bi-directional'] }}"{% endif%}>
+                    <input type="number" min="0" name="bi-directional" class="teleNum text-black h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['bi-directional'] }}"{% endif%}>
                 </div>
 
                 <div class="md:col-span-2">
@@ -58,12 +58,12 @@
 
                 <div class="md:col-span-2">
                     <label>Min. Duration (mins)</label>
-                    <input type="number" min="0" name="min_duration" class="duration h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['min_duration'] }}"{% endif%}>
+                    <input type="number" min="0" name="min_duration" class="text-black duration h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['min_duration'] }}"{% endif%}>
                 </div>
 
                 <div class="md:col-span-2">
                     <label>Max. Duration (mins)</label>
-                    <input type="number" min="0" name="max_duration" class="duration h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['max_duration'] }}"{% endif%}>
+                    <input type="number" min="0" name="max_duration" class="text-black duration h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['max_duration'] }}"{% endif%}>
                 </div>
 
                 <div class="md:col-span-2">
@@ -77,20 +77,21 @@
   
                 <div class="md:col-span-4 text-right">
                   <div class="inline-flex items-end">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                    <button class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded">Submit</button>
                   </div>
                 </div>
               </div>
             </div>
         </div>
 {% if results %}
-  <h3>{{ results | length }} Results:</h3>
-
-  Total duration: {{ total_duration | time_fmt }}
-  <br>
-  Average duration: {{ average_duration | time_fmt }}
-  <br>
-  <br>
+  <div class="text-gray-200">
+    <h3>{{ results | length }} Results:</h3>
+    Total duration: {{ total_duration | time_fmt }}
+    <br>
+    Average duration: {{ average_duration | time_fmt }}
+    <br>
+    <br>
+  </div>
 
   <table width="100%">
       <tr>
