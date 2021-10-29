@@ -3,6 +3,7 @@
 
 {% block content %}
 <title>Explore | HD Recordings - IT Support Guys</title>
+
   {% if leaf %}
       {% if leaf %}
       <a href="{{ request.path|parent }}" class="inline-flex overflow-hidden text-white bg-gray-900 rounded group ml-0">
@@ -18,26 +19,41 @@
       {% endif %}
     {% for file in files %}
       {% if metadata[request.path[1:] + "/" + file ] %}
-      <table class="table-auto">
-          <tr>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Init. #</th>
-              <th>Recv. #</th>
-              <th>Incoming?</th>
-              <th>Duration</th>
-              <th>Text</th>
-          </tr>
-          <tr>
-              <td>{{ metadata[request.path[1:] + "/" + file ]["date_time"].date() }}</td>
-              <td>{{ metadata[request.path[1:] + "/" + file ]["date_time"].time() }}</td>
-              <td>{{ metadata[request.path[1:] + "/" + file ]["initiating"] }}</td>
-              <td>{{ metadata[request.path[1:] + "/" + file ]["receiving"] }}</td>
-              <td>{% if metadata[request.path[1:] + "/" + file ]["incoming"] %}Incoming{% else %}Outgoing{%endif%}</td>
-              <td>{{ metadata[request.path[1:] + "/" + file ]["duration"] | time_fmt }}</td>
-              <td>{{ metadata[request.path[1:] + "/" + file ]["text"] }}</td>
-          </tr>
-      </table>
+        <table class="w-full flex flex-row flex-no-wrap sm:shadow-lg my-5">
+          <thead class="text-white">
+            <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+              <th class="p-3 text-left">Date/Time</th>
+              <th class="p-3 text-left">Initiating</th>
+              <th class="p-3 text-left">Recieving</th>
+              <th class="p-3 text-left">Direction</th>
+              <th class="p-3 text-left">Duration</th>
+              <th class="p-3 text-left">Transcription</th>
+            </tr>
+          </thead>
+          <tbody class="flex-1 sm:flex-none">
+            <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+              <td class="border p-3">
+                  {{ metadata[request.path[1:] + "/" + file ]["date_time"].date() }} | 
+                  {{ metadata[request.path[1:] + "/" + file ]["date_time"].time() }}
+              </td>
+              <td class="border p-3">
+                  {{ metadata[request.path[1:] + "/" + file ]["initiating"] }}
+              </td>
+              <td class="border p-3">
+                  {{ metadata[request.path[1:] + "/" + file ]["receiving"] }}
+              </td>
+              <td class="border p-3">
+                  {% if metadata[request.path[1:] + "/" + file ]["incoming"] %}Incoming{% else %}Outgoing{%endif%}
+              </td>
+              <td class="border p-3">
+                  {{ metadata[request.path[1:] + "/" + file ]["duration"] | time_fmt }}
+              </td>
+              <td class="border p-3">
+                  {{ metadata[request.path[1:] + "/" + file ]["text"] }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       {% else %}
       <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
           {{ (request.path + '/' if request.path != '/' else '') + file }}
