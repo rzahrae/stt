@@ -60,7 +60,6 @@
   Average duration: {{ average_duration | seconds_fmt }}
   <br>
   <br>
-
   <table width="100%">
       <tr>
           <th>Date</th>
@@ -86,10 +85,13 @@
               {{ result.text }}
             {% endif%}</td>
             <td>
-              <audio controls preload="none">
+              <audio controls preload="none" class="audio_player">
                   <source src="/{{ result.path }}" type="audio/wav">
                   Your browser does not support the audio element.
               </audio>
+              <br>
+              <input type="range" class="playback_rate" min=.5 max=3 value=1 step=.1>
+              <label for="playback_rate">Global Playback Rate</label>
             </td>
         </tr>
     {% endfor %}

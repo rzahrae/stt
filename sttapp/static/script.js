@@ -20,10 +20,21 @@ $(function() {
 
 $(document).ready(function() {
     try {
-            let re = new RegExp($("#text_input").val(), 'gim')
-    $(".text_output").markRegExp(re);
+        let re = new RegExp($("#text_input").val(), 'gim')
+        $(".text_output").markRegExp(re);
     } catch (error) {
-        console.error(error)
+        //console.error(error)
     }
 
+    $('.playback_rate').change(function(event) {
+        console.log(this.value);
+        $('.playback_rate').val(this.value)
+        var players = $('.audio_player');
+        console.log(Object.keys(this))
+
+        for (let i = 0; i < players.length; i++) {
+            console.log(i)
+            players[i].playbackRate = this.value
+        }
+    });
 });

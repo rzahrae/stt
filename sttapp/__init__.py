@@ -219,9 +219,7 @@ def run_inventory():
     if query.exists():
         print("already inventorying")
         current_inventory = query.get()
-        flash(
-            "Inventory is already running!"
-        )
+        flash("Inventory is already running!")
     else:
         flash("Running inventory!")
         # inventory.dispatch_inventory()
