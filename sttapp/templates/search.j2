@@ -80,7 +80,11 @@
             <td>{{ result.receiving }}</td>
             <td>{% if result.incoming %}Incoming{% else %}Outgoing{%endif%}</td>
             <td>{{ result.duration | seconds_fmt }}</td>
-            <td class="text_output">{{ result.text | regex_capture(args['text']) }}</td>
+            <td class="text_output">{% if args.get["regex" %}
+              {{ result.text | regex_capture(args['text']) }}
+            {% else %}
+              {{ result.text }}
+            {% endif%}</td>
             <td>
               <audio controls preload="none">
                   <source src="/{{ result.path }}" type="audio/wav">
