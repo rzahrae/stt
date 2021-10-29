@@ -90,41 +90,52 @@
     <br>
     Average duration: {{ average_duration | time_fmt }}
     <br>
-    <br>
   </div>
 
-  <table width="100%">
-      <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Init. #</th>
-          <th>Recv. #</th>
-          <th>Incoming?</th>
-          <th>Duration</th>
-          <th>Text</th>
-          <th>Audio</th>
-      </tr>
-    {% for result in results %}
-        <tr>
-            <td>{{ result.date_time.date() }}</td>
-            <td>{{ result.date_time.time() }}</td>
-            <td>{{ result.initiating }}</td>
-            <td>{{ result.receiving }}</td>
-            <td>{% if result.incoming %}Incoming{% else %}Outgoing{%endif%}</td>
-            <td>{{ result.duration | time_fmt }}</td>
-            <td>{{ result.text }}</td>
-            <td>
-              <audio controls>
-                  <source src="/{{ result.path }}" type="audio/wav">
-                  Your browser does not support the audio element.
-              </audio>
-            </td>
+  {% for result in results %}
+  <table class="w-full flex flex-row flex-no-wrap sm:shadow-lg my-5">
+      <thead class="text-white">
+        <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+          <th class="p-3 text-left">Date/Time</th>
+          <th class="p-3 text-left">Initiating</th>
+          <th class="p-3 text-left">Recieving</th>
+          <th class="p-3 text-left">Direction</th>
+          <th class="p-3 text-left">Duration</th>
+          <th class="p-3 text-left">Transcription</th>
         </tr>
-    {% endfor %}
+      </thead>
+      
+      <tbody class="flex-1 sm:flex-none">
+        <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+          <td class="border p-3">
+              {{ result.date_time.date() }} /
+              {{ result.date_time.time() }}
+          </td>
+          <td class="border p-3">
+              {{ result.initiating }}
+          </td>
+          <td class="border p-3">
+              {{ result.receiving }}
+          </td>
+          <td class="border p-3">
+              {% if result.incoming %}Incoming{% else %}Outgoing{%endif%}
+          </td>
+          <td class="border p-3">
+              {{ result.duration | time_fmt }}
+          </td>
+          <td class="border p-3">
+              {{ result.text }}
+          </td>
+          <td class="border p-3">
+            <audio controls>
+                <source src="/{{ result.path }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+          </td>
+        </tr>
+      </tbody>
   </table>
-  <br>
-  {{ results }}
+  {% endfor %}
 {% endif %}
-
 </form>
 {% endblock %}
