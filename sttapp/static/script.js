@@ -19,5 +19,8 @@ $(function() {
 });
 
 $(document).ready(function() {
-    console.log("ready!");
+    let re = new RegExp($("#text_input").val(), 'gim')
+    $(".text_output").markRegExp(re, {
+        "debug": true
+    });
 });

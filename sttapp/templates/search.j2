@@ -6,13 +6,14 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript" src="/static/script.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/jquery.mark.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
 
 {% endblock %}
 {% block title %}<h2>Search</h2>{% endblock %}
 {% block content %}
   <form>
-  <input type="text" name="text" size=38 autocomplete="off" {%if args %}value="{{ args['text'] }}"{% endif %}>
+  <input type="text" name="text" size=38 autocomplete="off" id="text_input" {%if args %}value="{{ args['text'] }}"{% endif %}>
   <label for="text">Text</label>
   <br>
   <input type="checkbox" name="regex" {% if args and args['regex'] == 'on' %}checked="checked"{% endif %}>
@@ -79,7 +80,7 @@
             <td>{{ result.receiving }}</td>
             <td>{% if result.incoming %}Incoming{% else %}Outgoing{%endif%}</td>
             <td>{{ result.duration | seconds_fmt }}</td>
-            <td>{{ result.text | regex_capture(args['text']) }}</td>
+            <td class="text_output">{{ result.text | regex_capture(args['text']) }}</td>
             <td>
               <audio controls preload="none">
                   <source src="/{{ result.path }}" type="audio/wav">
