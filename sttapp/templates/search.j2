@@ -12,42 +12,77 @@
 {% block title %}<h2>Search</h2>{% endblock %}
 {% block content %}
   <title>Search | HD Recordings - IT Support Guys</title>
-  <form>
-  <input type="text" name="text" size=38 {%if args %}value="{{ args['text'] }}"{% endif %}>
-  <label for="text">Text</label>
-  <br>
-  <input type="text" name="date_filter" size=38 autocomplete="off" {% if args %}value="{{ args['date_filter'] }}"{% endif%}>
-  <label for="date_filter">Timeframe</label>
-  <br>
-  <input type="number" min="0" name="initiating" class="teleNum" {% if args %}value="{{ args['initiating'] }}"{% endif%}>
-  <label for="initiating">Initiating #</label>
-  <br>
-  <input type="number" min="0" name="receiving" class="teleNum" {% if args %}value="{{ args['receiving'] }}"{% endif%}>
-  <label for="receiving">Receiving #</label>
-  <br>
-  <input type="number" min="0" name="bi-directional" class="teleNum" {% if args %}value="{{ args['bi-directional'] }}"{% endif%}>
-  <label for="receiving">Initiating or Receiving #</label>
-  <br>
-  <input type="checkbox" name="incoming" {% if args and args['incoming'] == 'on' %}checked="checked"{% endif %}>
-  <label for="incoming">Incoming</label>
-  <input type="checkbox" name="outgoing" {% if args and args['outgoing'] == 'on' %}checked="checked"{% endif %}>
-  <label for="outgoing">Outgoing</label>
-  <br>
-  <input type="number" min="0" name="min_duration" class="duration"{% if args %}value="{{ args['min_duration'] }}"{% endif%}>
-  <label>Min. Duration (mins)</label>
-  <br>
-  <input type="number" min="0" name="max_duration" class="duration"{% if args %}value="{{ args['max_duration'] }}"{% endif%}>
-  <label>Max. Duration (mins)</label>
+  <form class="text-black font-semibold">
+        <div class="bg-indigo-100 rounded shadow-lg p-4 px-4 md:p-8 mb-6">
 
-  <br>
-  Logical Operator (across all fields):
-  <br>
-  <input type="radio" name="logic" value="and" {% if args and args['logic'] == 'and' %}checked="checked"{% elif not args %}checked="checked"{% endif %}>
-  <label for="and">AND</label>
-  <input type="radio" name="logic" value="or"{% if args and args['logic'] == 'or' %}checked="checked"{% endif %}>
-  <label for="or">OR</label>
-  <br>
-  <input type="submit">
+            <div class="lg:col-span-2">
+              <div class="grid gap-4 gap-y-2 text-sm grid-cols-1">
+                <div class="md:col-span-4">
+                  <label for="text">Text</label>
+                  <input type="text" name="text" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" {%if args %}value="{{ args['text'] }}"{% endif %}>
+                </div>
+  
+                <div class="md:col-span-4">
+                  <label for="date_filter">Timeframe</label>
+                  <input type="text" name="date_filter" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" autocomplete="off" {% if args %}value="{{ args['date_filter'] }}"{% endif%}>
+                </div>
+  
+                <div class="md:col-span-2">
+                  <label for="initiating">Initiating #</label>
+                  <input type="number" min="0" name="initiating" class="teleNum h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['initiating'] }}"{% endif%}>
+                </div>
+  
+                <div class="md:col-span-2">
+                  <label for="receiving">Receiving #</label>
+                  <input type="number" min="0" name="receiving" class="teleNum h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['receiving'] }}"{% endif%}>
+                </div>
+  
+                <div class="md:col-span-4">
+                    <label for="receiving">Initiating or Receiving #</label>
+                    <input type="number" min="0" name="bi-directional" class="teleNum h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['bi-directional'] }}"{% endif%}>
+                </div>
+
+                <div class="md:col-span-2">
+                    <div class="inline-flex items-center">
+                      <input type="checkbox" name="incoming" class="form-checkbox" {% if args and args['incoming'] == 'on' %}checked="checked"{% endif %}>
+                      <label for="incoming" class="ml-2">Incoming</label>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2">
+                    <div class="inline-flex items-center">
+                      <input type="checkbox" name="outgoing" class="form-checkbox" {% if args and args['outgoing'] == 'on' %}checked="checked"{% endif %}>
+                      <label for="outgoing" class="ml-2">Outgoing</label>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label>Min. Duration (mins)</label>
+                    <input type="number" min="0" name="min_duration" class="duration h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['min_duration'] }}"{% endif%}>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label>Max. Duration (mins)</label>
+                    <input type="number" min="0" name="max_duration" class="duration h-10 border mt-1 rounded px-4 w-full bg-gray-50" {% if args %}value="{{ args['max_duration'] }}"{% endif%}>
+                </div>
+
+                <div class="md:col-span-2">
+                    <label>Logical Operator (across all fields):</label><br>
+                    <input type="radio" name="logic" value="and" {% if args and args['logic'] == 'and' %}checked="checked"{% elif not args %}checked="checked"{% endif %}>
+                    <label for="and" class="pr-5">AND</label>
+
+                    <input type="radio" name="logic" value="or" {% if args and args['logic'] == 'or' %}checked="checked"{% endif %}>
+                    <label for="or">OR</label>
+                </div>
+  
+                <div class="md:col-span-4 text-right">
+                  <div class="inline-flex items-end">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
 {% if results %}
   <h3>{{ results | length }} Results:</h3>
 
