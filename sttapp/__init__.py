@@ -135,6 +135,7 @@ def search():
             if key == "text":
                 if request.args.get("regex") == "on":
                     clauses.append(db.Call.text.regexp(request.args.get(key)))
+                    print("doing regex")
                 else:
                     clauses.append(db.Call.text.contains(request.args.get(key)))
 
