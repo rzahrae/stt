@@ -21,7 +21,7 @@
       {% if metadata[request.path[1:] + "/" + file ] %}
         <table class="w-full flex flex-row flex-no-wrap sm:shadow-lg my-5">
           <thead class="text-white">
-            <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+            <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
               <th class="p-3 text-left">Date/Time</th>
               <th class="p-3 text-left">Initiating</th>
               <th class="p-3 text-left">Recieving</th>
@@ -33,7 +33,7 @@
           <tbody class="flex-1 sm:flex-none">
             <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
               <td class="border p-3">
-                  {{ metadata[request.path[1:] + "/" + file ]["date_time"].date() }} | 
+                  {{ metadata[request.path[1:] + "/" + file ]["date_time"].date() }} / 
                   {{ metadata[request.path[1:] + "/" + file ]["date_time"].time() }}
               </td>
               <td class="border p-3">
@@ -55,11 +55,26 @@
           </tbody>
         </table>
       {% else %}
-      <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
-          {{ (request.path + '/' if request.path != '/' else '') + file }}
-      </a>
-      <br>
-      Metadata has not yet been gathered.
+      <table class="w-full flex flex-row flex-no-wrap sm:shadow-lg my-5">
+          <thead class="text-white">
+            <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+              <th class="p-3 text-left">File</th>
+              <th class="p-3 text-left">Information</th>
+            </tr>
+          </thead>
+          <tbody class="flex-1 sm:flex-none">
+            <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+              <td class="border p-3">
+                <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
+                    {{ (request.path + '/' if request.path != '/' else '') + file }}
+                </a>
+              </td>
+              <td class="border p-3">
+                Metadata has not yet been gathered.
+              </td>
+            </tr>
+          </tbody>
+      </table>
       {% endif %}
     <br>
     <audio controls>
