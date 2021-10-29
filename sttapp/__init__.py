@@ -135,7 +135,6 @@ def search():
             if key == "text":
                 if request.args.get("regex") == "on":
                     clauses.append(db.Call.text.regexp(request.args.get(key)))
-                    print("doing regex")
                 else:
                     clauses.append(db.Call.text.contains(request.args.get(key)))
 
@@ -179,34 +178,36 @@ def search():
                     db.Call.duration >= float(request.args.get(key).strip()) * 60
                 )
 
-        # try:
-        if request.args["logic"] == "and":
-            filter = functools.reduce(operator.and_, clauses)
-        else:
-            filter = functools.reduce(operator.or_, clauses)
+        try:
+            if request.args["logic"] == "and":
+                filter = functools.reduce(operator.and_, clauses)
+            else:
+                filter = functools.reduce(operator.or_, clauses)
 
-        results = db.Call.select().where(filter).order_by(db.Call.date_time.asc())
-        print(results)
-        total_duration = 0
+            results = db.Call.select().where(filter).order_by(db.Call.date_time.asc())
 
-        if not results.exists():
-            flash("Nothing found!")
-            average_duration = 0
-        else:
-            for result in results:
-                total_duration = total_duration + result.duration
-            average_duration = total_duration / results.count()
+            print(results)
 
-        return render_template(
-            "search.j2",
-            results=results,
-            total_duration=total_duration,
-            average_duration=average_duration,
-            args=request.args,
-        )
-        # except Exception as e:
-        #     flash(str(e))
-        #     return render_template("search.j2", args=request.args)
+            total_duration = 0
+
+            if not results.exists():
+                flash("Nothing found!")
+                average_duration = 0
+            else:
+                for result in results:
+                    total_duration = total_duration + result.duration
+                average_duration = total_duration / results.count()
+
+            return render_template(
+                "search.j2",
+                results=results,
+                total_duration=total_duration,
+                average_duration=average_duration,
+                args=request.args,
+            )
+        except Exception as e:
+            flash(str(e))
+            return render_template("search.j2", args=request.args)
     else:
         return render_template("search.j2", args=request.args)
 
