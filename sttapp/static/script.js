@@ -1,23 +1,3 @@
-$(function() {
-    $('input[name="date_filter"]').daterangepicker({
-        timePicker: true,
-        autoUpdateInput: false,
-        locale: {
-            cancelLabel: 'Clear',
-            format: 'MM/DD/YYYY hh:mm A'
-        }
-    });
-
-    $('input[name="date_filter"]').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('MM/DD/YYYY hh:mm A') + ' - ' + picker.endDate.format('MM/DD/YYYY hh:mm A'));
-    });
-
-    $('input[name="date_filter"]').on('cancel.daterangepicker', function(ev, picker) {
-        $(this).val('');
-    });
-
-});
-
 $(document).ready(function() {
     try {
         let re = new RegExp($("#text_input").val(), 'gim')
@@ -27,13 +7,10 @@ $(document).ready(function() {
     }
 
     $('.playback_rate').change(function(event) {
-        console.log(this.value);
         $('.playback_rate').val(this.value)
-        var players = $('.audio_player');
-        console.log(Object.keys(this))
+        var players = $('.audio_player')
 
         for (let i = 0; i < players.length; i++) {
-            console.log(i)
             players[i].playbackRate = this.value
         }
     });

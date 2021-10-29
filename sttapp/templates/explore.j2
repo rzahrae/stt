@@ -1,4 +1,11 @@
 {% extends "logged_in.j2" %}
+{% block head %}
+{% if files %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="/static/script.js"></script>
+{% endif %}
+
+{% endblock %}
 {% block title %}<h2>Explore</h2>{% endblock %}
 
 {% block content %}
@@ -38,10 +45,13 @@
       Metadata has not yet been gathered.
       {% endif %}
     <br>
-    <audio controls  preload="none">
+    <audio controls  preload="none" class="audio_player">
         <source src="{{ (request.path + '/' if request.path != '/' else '') + file }}" type="audio/wav">
         Your browser does not support the audio element.
     </audio>
+    <br>
+    <input type="range" class="playback_rate" min=.5 max=3 value=1 step=.1>
+    <label for="playback_rate">Global Playback Rate</label>
       {% if not loop.last %}
       <br>
       <br>
