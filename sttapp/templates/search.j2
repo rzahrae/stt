@@ -6,6 +6,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript" src="/static/script.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/jquery.mark.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
 
 {% endblock %}
@@ -19,7 +20,7 @@
         <div class="grid gap-4 gap-y-2 text-sm grid-cols-1">
           <div class="md:col-span-4">
             <label for="text">Text</label>
-            <input type="text" name="text" autocomplete="off" class="mb-2 text-black h-10 border mt-1 rounded px-4 w-full bg-gray-50" {%if args %}value="{{ args['text'] }}"{% endif %}>
+            <input type="text" name="text" autocomplete="off" class="mb-2 text-black h-10 border mt-1 rounded px-4 w-full bg-gray-50" id="text_input" {%if args %}value="{{ args['text'] }}"{% endif %}>
             <input type="checkbox" name="regex" {% if args and args['regex'] == 'on' %}checked="checked"{% endif %}>
             <label for="regex">^ Use <a href="https://pythex.org" target="_blank" class="underline">regular expressions</a>!(!!!)</label>
           </div>
@@ -127,7 +128,7 @@
           <td class="border p-3">
               {{ result.duration | seconds_fmt }}
           </td>
-          <td class="border p-3">
+          <td class="border p-3 text_output">
               {{ result.text | regex_capture(args['text']) }}
           </td>
           <td class="border p-3">
