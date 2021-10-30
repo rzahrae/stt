@@ -129,7 +129,11 @@
               {{ result.duration | seconds_fmt }}
           </td>
           <td class="border p-3 text_output">
+            {% if args.get["regex" %}
               {{ result.text | regex_capture(args['text']) }}
+            {% else %}
+              {{ result.text }}
+            {% endif%}
           </td>
           <td class="border p-3">
             <audio controls preload="none">
