@@ -22,7 +22,18 @@
         <div id="content" class="text-white">
             {% block content %}{% endblock %}
         </div>
+    <div id="flashes">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
     </div>
+    <div id="debug">{% block debug %}{% endblock %}</div>
 </body>
 
 </html>

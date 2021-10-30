@@ -6,7 +6,9 @@
 {% endif %}
 
 {% endblock %}
+
 {% block title %}<h2 class="mb-4">Explore</h2>{% endblock %}
+
 
 {% block content %}
 <title>Explore | HD Recordings - IT Support Guys</title>
@@ -26,6 +28,7 @@
       {% endif %}
     {% for file in files %}
       {% if metadata[request.path[1:] + "/" + file ] %}
+
         <table class="w-full flex flex-row flex-no-wrap sm:shadow-lg my-5">
           <thead class="text-white">
             <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">

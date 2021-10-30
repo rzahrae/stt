@@ -141,10 +141,14 @@
             <input type="range" class="playback_rate" min=.5 max=3 value=1 step=.1>
             <label for="playback_rate">Global Playback Rate</label>
           </td>
+
         </tr>
       </tbody>
   </table>
   {% endfor %}
 {% endif %}
 
+{% endblock %}
+{% block debug %}
+  {{ results }}
 {% endblock %}

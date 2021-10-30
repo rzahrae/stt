@@ -8,4 +8,14 @@ table {
 	display: inline-table !important;
 }
 
+.teleNum {
+	width: 12ch;
+}
+
+.duration {
+  width: 5ch;
+}
+
+.flashes {
+	color: red;
 }
