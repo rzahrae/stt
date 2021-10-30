@@ -45,9 +45,26 @@ def parent(path):
     return path.parent
 
 
-@app.template_filter("time_fmt")
-def time_fmt(seconds):
+@app.template_filter("seconds_fmt")
+def seconds_fmt(seconds):
     return str(datetime.timedelta(seconds=int(seconds)))
+
+
+@app.template_filter("regex_capture")
+def regex_capture(text, regex):
+    result = re.search(regex, text, flags=re.IGNORECASE)
+    if len(result.groups()) > 0:
+        concat = ""
+        for group in result.groups():
+            if concat == "":
+                concat = group
+            else:
+                concat = concat + " ... " + group
+        return concat
+    else:
+        return text
+
+    return result
 
 
 @app.before_request
@@ -115,6 +132,12 @@ def search():
         print(request.args)
         clauses = []
         for key in request.args:
+            if key == "text":
+                if request.args.get("regex") == "on":
+                    clauses.append(db.Call.text.regexp(request.args.get(key)))
+                else:
+                    clauses.append(db.Call.text.contains(request.args.get(key)))
+
             if key == "date_filter" and request.args[key].strip() != "":
                 regex = re.search(
                     "^(.*) - (.*)$", request.args.get("date_filter").strip()
@@ -155,8 +178,6 @@ def search():
                     db.Call.duration >= float(request.args.get(key).strip()) * 60
                 )
 
-            if key == "text":
-                clauses.append(db.Call.text.contains(request.args.get(key)))
         try:
             if request.args["logic"] == "and":
                 filter = functools.reduce(operator.and_, clauses)
@@ -164,6 +185,8 @@ def search():
                 filter = functools.reduce(operator.or_, clauses)
 
             results = db.Call.select().where(filter).order_by(db.Call.date_time.asc())
+
+            print(results)
 
             total_duration = 0
 
@@ -175,10 +198,16 @@ def search():
                     total_duration = total_duration + result.duration
                 average_duration = total_duration / results.count()
 
-            return render_template("search.j2", results=results, total_duration=total_duration, average_duration=average_duration, args=request.args)
+            return render_template(
+                "search.j2",
+                results=results,
+                total_duration=total_duration,
+                average_duration=average_duration,
+                args=request.args,
+            )
         except Exception as e:
             flash(str(e))
-            return redirect(url_for("search"))
+            return render_template("search.j2", args=request.args)
     else:
         return render_template("search.j2", args=request.args)
 
@@ -190,13 +219,7 @@ def run_inventory():
     if query.exists():
         print("already inventorying")
         current_inventory = query.get()
-        flash(
-            "Inventory is already running!  %s/%s"
-            % (
-                current_inventory.skipped_paths + current_inventory.finished_paths,
-                current_inventory.total_paths,
-            )
-        )
+        flash("Inventory is already running!")
     else:
         flash("Running inventory!")
         # inventory.dispatch_inventory()

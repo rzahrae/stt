@@ -18,7 +18,7 @@
       <div class="lg:col-span-2">
         <div class="grid gap-4 gap-y-2 text-sm grid-cols-1">
           <div class="md:col-span-4">
-            <label for="text">Text</label>
+            <label for="text">Text (supports <a href="https://pythex.org" class="underline">regular expressions</a>!) </label>
             <input type="text" name="text" class="text-black h-10 border mt-1 rounded px-4 w-full bg-gray-50" {%if args %}value="{{ args['text'] }}"{% endif %}>
           </div>
 
@@ -84,13 +84,13 @@
         </div>
     </div>
   </form>
-  
+
 {% if results %}
   <div class="text-gray-200">
     <h3>{{ results | length }} Results:</h3>
-    Total duration: {{ total_duration | time_fmt }}
+    Total duration: {{ total_duration | seconds_fmt }}
     <br>
-    Average duration: {{ average_duration | time_fmt }}
+    Average duration: {{ average_duration | seconds_fmt }}
     <br>
   </div>
 
@@ -123,7 +123,7 @@
               {% if result.incoming %}Incoming{% else %}Outgoing{%endif%}
           </td>
           <td class="border p-3">
-              {{ result.duration | time_fmt }}
+              {{ result.duration | seconds_fmt }}
           </td>
           <td class="border p-3">
               {{ result.text }}

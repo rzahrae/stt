@@ -11,6 +11,8 @@ def get_stt(filename):
         region=current_app.config["AZURE_SPEECH_REGION"],
     )
 
+    speech_config.set_profanity(speechsdk.ProfanityOption.Raw)
+
     speech_config.set_property(
         speechsdk.PropertyId.Speech_LogFilename,
         str(Path(current_app.instance_path).joinpath("log.txt")),
