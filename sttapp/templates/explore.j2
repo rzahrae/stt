@@ -46,7 +46,7 @@
                   {% if metadata[request.path[1:] + "/" + file ]["incoming"] %}Incoming{% else %}Outgoing{%endif%}
               </td>
               <td class="border p-3">
-                  {{ metadata[request.path[1:] + "/" + file ]["duration"] | time_fmt }}
+                  {{ metadata[request.path[1:] + "/" + file ]["duration"] | seconds_fmt }}
               </td>
               <td class="border p-3">
                   {{ metadata[request.path[1:] + "/" + file ]["text"] }}
