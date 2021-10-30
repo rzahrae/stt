@@ -128,7 +128,7 @@
               {{ result.duration | seconds_fmt }}
           </td>
           <td class="border p-3">
-              {{ result.text }}
+              {{ result.text | regex_capture(args['text']) }}
           </td>
           <td class="border p-3">
             <audio controls>
