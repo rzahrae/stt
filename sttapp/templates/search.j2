@@ -131,7 +131,7 @@
               {{ result.text | regex_capture(args['text']) }}
           </td>
           <td class="border p-3">
-            <audio controls>
+            <audio controls preload="none">
                 <source src="/{{ result.path }}" type="audio/wav">
                 Your browser does not support the audio element.
             </audio>
