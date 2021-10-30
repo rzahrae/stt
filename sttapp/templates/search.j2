@@ -1,14 +1,12 @@
 {% extends "logged_in.j2" %}
 {% block head %}
-{% if results %}
-{% endif %}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript" src="/static/script.js"></script>
+<script type="text/javascript" src="/static/daterangepicker.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/jquery.mark.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
-
 {% endblock %}
 {% block title %}<h2>Search</h2>{% endblock %}
 {% block content %}
@@ -22,7 +20,7 @@
             <label for="text">Text</label>
             <input type="text" name="text" autocomplete="off" class="mb-2 text-black h-10 border mt-1 rounded px-4 w-full bg-gray-50" id="text_input" {%if args %}value="{{ args['text'] }}"{% endif %}>
             <input type="checkbox" name="regex" {% if args and args['regex'] == 'on' %}checked="checked"{% endif %}>
-            <label for="regex">^ Use <a href="https://pythex.org" target="_blank" class="underline">regular expressions</a>!(!!!)</label>
+            <label for="regex">^ Use <a href="https://pythex.org" target="_blank" class="underline">regular expressions</a>!</label>
           </div>
 
           <div class="md:col-span-4">
@@ -129,17 +127,19 @@
               {{ result.duration | seconds_fmt }}
           </td>
           <td class="border p-3 text_output">
-            {% if args.get["regex" %}
+            {% if args.get("regex") %}
               {{ result.text | regex_capture(args['text']) }}
             {% else %}
               {{ result.text }}
             {% endif%}
           </td>
           <td class="border p-3">
-            <audio controls preload="none">
+            <audio controls preload="none" class="audio_player mb-2">
                 <source src="/{{ result.path }}" type="audio/wav">
                 Your browser does not support the audio element.
             </audio>
+            <input type="range" class="playback_rate" min=.5 max=3 value=1 step=.1>
+            <label for="playback_rate">Global Playback Rate</label>
           </td>
         </tr>
       </tbody>
