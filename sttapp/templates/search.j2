@@ -88,30 +88,34 @@
 
 {% if results %}
   <div class="text-gray-200">
-    <h3>{{ results | length }} Results:</h3>
+    <h3>{{ results | length }} Result{% if results | length > 1%}s{% endif %}</h3>
     Total duration: {{ total_duration | seconds_fmt }}
     <br>
     Average duration: {{ average_duration | seconds_fmt }}
     <br>
   </div>
 
-  {% for result in results %}
   <table class="w-full flex flex-row flex-no-wrap sm:shadow-lg my-5">
       <thead class="text-white">
         <tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-          <th class="p-3 text-left">Date/Time</th>
-          <th class="p-3 text-left">Initiating</th>
-          <th class="p-3 text-left">Recieving</th>
-          <th class="p-3 text-left">Direction</th>
+          <th class="p-3 text-left">Date</th>
+          <th class="p-3 text-left">Time</th>
+          <th class="p-3 text-left">Init.</th>
+          <th class="p-3 text-left">Recv.</th>
+          <th class="p-3 text-left">Dir.</th>
           <th class="p-3 text-left">Duration</th>
           <th class="p-3 text-left">Transcription</th>
+          <th class="p-3 text-left">Audio</th>
         </tr>
       </thead>
       
       <tbody class="flex-1 sm:flex-none">
+      {% for result in results %}
         <tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
           <td class="border p-3">
-              {{ result.date_time.date() }} /
+              {{ result.date_time.date() }}
+          </td>
+          <td class="border p-3">
               {{ result.date_time.time() }}
           </td>
           <td class="border p-3">
@@ -121,7 +125,7 @@
               {{ result.receiving }}
           </td>
           <td class="border p-3">
-              {% if result.incoming %}Incoming{% else %}Outgoing{%endif%}
+              {% if result.incoming %}In{% else %}Out{%endif%}
           </td>
           <td class="border p-3">
               {{ result.duration | seconds_fmt }}
@@ -138,14 +142,16 @@
                 <source src="/{{ result.path }}" type="audio/wav">
                 Your browser does not support the audio element.
             </audio>
-            <input type="range" class="playback_rate" min=.5 max=3 value=1 step=.1>
-            <label for="playback_rate">Global Playback Rate</label>
+            <input type="range" class="playback_rate" min=.5 max=5 value=1 step=.1>
+            <label for="playback_rate">Rate</label>
+            <button type="button" class="playback_rate_reset bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-block">Reset</button>
           </td>
 
         </tr>
+      {% endfor %}
       </tbody>
   </table>
-  {% endfor %}
+
 {% endif %}
 
 {% endblock %}
